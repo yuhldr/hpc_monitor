@@ -1,4 +1,5 @@
 import os, json, time
+import socket
 import utils
 import config
 
@@ -31,6 +32,9 @@ if os.path.exists(config_path):
 
 print(config_data)
 
+hostname = socket.gethostname()
+print(hostname)
+
 for n in range(len(rates)):
     i = len(rates) - 1 - n
     if (str(i) in config_data[section_mail_date]):
@@ -38,7 +42,7 @@ for n in range(len(rates)):
 
     if (rate_now >= rates[i] and utils.get_time_span(last_mail_date) >
             config.warning_disk_home_time[i]):
-        title = config.warning_disk_home_title[i]
+        title = hostname + "：" + config.warning_disk_home_title[i]
 
         content = config.warning_disk_home_msg[
             i] + "\n\n当前磁盘%s占用 %d：\n%s\n以下是每个用户详细使用情况：\n\n" % (
