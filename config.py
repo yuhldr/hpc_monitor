@@ -7,7 +7,7 @@ disk_home_warning_to_mails = ["***REMOVED***", "***REMOVED***"]
 warning_disk_home_rate = [80, 90, 95, 98]
 
 # 每隔多少小时提醒
-warning_disk_home_time = [24 * 30, 7 * 24, 6 * 24, 24]
+warning_disk_home_time = [24 * 30, 7 * 24, 6, 1]
 # 提醒内容
 warning_disk_home_title = [
     "磁盘占用已经到达警戒值", "磁盘占用过高，影响性能！", "磁盘占用极高！严重影响性能！", "磁盘占用危险！有崩盘风险！"
