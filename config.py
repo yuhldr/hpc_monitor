@@ -1,7 +1,7 @@
 mail_from_usr = "***REMOVED***"
 mail_from_pw = "***REMOVED***"
 
-disk_home_warning_to_mails = ["***REMOVED***"]
+disk_home_warning_to_mails = ["***REMOVED***", "***REMOVED***"]
 
 # 磁盘使用率到达多少时体系
 warning_disk_home_rate = [80, 90, 95, 98]

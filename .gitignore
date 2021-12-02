@@ -4,6 +4,7 @@
 *.txt
 
 *.npy
+data
 
 cache
 .idea
