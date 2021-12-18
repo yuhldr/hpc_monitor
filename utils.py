@@ -4,6 +4,7 @@ import time
 from dateutil.parser import parse
 import requests
 import hashlib
+from pathlib import Path
 
 import smtplib
 from email.mime.text import MIMEText
@@ -24,6 +25,19 @@ headers = {
 # ============ time ========
 
 # ============ log =========
+
+
+def check_dir(dir_path):
+    if not Path(dir_path).exists():
+        os.makedirs(dir_path)
+    return dir_path
+
+
+def check_dirs(dir_paths):
+    paths = []
+    for dir_path in dir_paths:
+        paths.append(check_dir(dir_path))
+    return paths
 
 
 def get_day_of_month():
