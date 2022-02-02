@@ -2,7 +2,7 @@ mail_from_usr = "yuhldr@163.com"
 mail_from_pw = "IWPEIZUWAFZNHGVX"
 
 # disk_home_warning_to_mails = ["yuh20@lzu.edu.cn"]
-disk_home_warning_to_mails = ["yuh20@lzu.edu.cn", "wys@lzu.edu.cn", "dongjq@lzu.edu.cn"]
+disk_home_warning_to_mails = ["yuhldr@qq.com", "wys@lzu.edu.cn", "dongjq@lzu.edu.cn"]
 
 # 磁盘使用率到达多少时体系
 warning_disk_home_rate = [80, 90, 95, 98]
