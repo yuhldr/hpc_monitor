@@ -55,16 +55,16 @@ for n in range(len(rates)):
         else:
             content += "详细使用情况请查看 %s" % home_user_dir
 
-
         utils.lzu_send_mails(title, content, config.mail_from_usr,
                              config.mail_from_pw,
                              config.disk_home_warning_to_mails)
 
+        with open(config_path, 'w') as file:
+            config_data[section_mail_date][str(i)] = time.time()
+            json.dump(config_data, file, ensure_ascii=False)
+
         break
 
-with open(config_path, 'w') as file:
-    config_data[section_mail_date][str(i)] = time.time()
-    json.dump(config_data, file, ensure_ascii=False)
 
 s = "分区：%s，占用率：%d，上次提醒时间：%s，间隔：%s" % (
     disk_part, rate_now, utils.time2str(last_mail_date),
