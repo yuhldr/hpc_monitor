@@ -1,6 +1,7 @@
-mail_from_usr = "yuh20@lzu.edu.cn"
-mail_from_pw = "6UHyc5QbFi4NpfnK"
+mail_from_usr = "yuhldr@163.com"
+mail_from_pw = "IWPEIZUWAFZNHGVX"
 
+# disk_home_warning_to_mails = ["yuh20@lzu.edu.cn"]
 disk_home_warning_to_mails = ["yuh20@lzu.edu.cn", "wys@lzu.edu.cn", "dongjq@lzu.edu.cn"]
 
 # 磁盘使用率到达多少时体系
@@ -10,9 +11,11 @@ warning_disk_home_rate = [80, 90, 95, 98]
 warning_disk_home_time = [24 * 30, 7 * 24, 6, 1]
 # 提醒内容
 warning_disk_home_title = [
-    "磁盘占用已经到达警戒值", "磁盘占用过高，影响性能！", "磁盘占用极高！严重影响性能！", "磁盘占用危险！有崩盘风险！"
+    "磁盘占用已经到达警戒值", "磁盘占用过高，影响性能！", "磁盘占用极高！严重影响性能！",
+    "磁盘占用危险！有崩盘风险！"
 ]
 warning_disk_home_msg = [
-    "磁盘占用已经到达警戒值，请提醒清理各自空间", "磁盘占用过高！影响服务器性能！，请提醒用户清理各自空间",
-    "磁盘占用极高！严重影响服务器性能！，请提醒占用过多的同学，立刻清理、转移数据", "磁盘占用危险！有崩盘风险！，请管理员立刻清理空间"
+    "磁盘占用已经到达警戒值，请提醒清理各自空间",
+    "磁盘占用过高！影响服务器性能！，请提醒用户清理各自空间", "磁盘占用极高！严重影响服务器性能！，请提醒占用过多的同学，立刻清理、转移数据",
+    "磁盘占用危险！有崩盘风险！，请管理员立刻清理空间"
 ]

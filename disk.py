@@ -4,8 +4,8 @@ import utils
 import config
 
 disk_part = "/home"
-home_user_path = "/home/data/disk_home/home_%s.txt" % (
-    utils.getTime("%Y-%m-%d"))
+home_user_dir = "/home/data/disk_home"
+home_user_path = "%s/home_%s.txt" % (home_user_dir, utils.getTime("%Y-%m-%d"))
 log_file_name = "disk_home.log"
 config_path = "data/disk_home.json"
 
@@ -48,9 +48,13 @@ for n in range(len(rates)):
             i] + "\n\n当前磁盘%s占用 %d：\n%s\n以下是每个用户详细使用情况：\n\n" % (
                 disk_part, rate_now, disk_s)
 
-        with open(home_user_path, "r") as file:
-            s = file.read()
-            content += s
+        if (os.path.exists(home_user_path)):
+            with open(home_user_path, "r") as file:
+                s = file.read()
+                content += s
+        else:
+            content += "详细使用情况请查看 %s" % home_user_dir
+
 
         utils.lzu_send_mails(title, content, config.mail_from_usr,
                              config.mail_from_pw,

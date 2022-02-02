@@ -152,7 +152,7 @@ def make_dir(dir):
 def lzu_send_mails(subject, content, mail_from_usr, mail_from_usr_pw,
                    mail_to_usrs):
     send_mails(subject, content, mail_from_usr, mail_from_usr_pw, mail_to_usrs,
-               "smtp.lzu.edu.cn")
+               "smtp.163.com")
 
 
 def send_mails(subject,
