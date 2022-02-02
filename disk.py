@@ -11,7 +11,7 @@ config_path = "data/disk_home.json"
 
 utils.make_dir("data")
 
-disk_s = str(os.popen('df -h | grep "%s"' % disk_part).readline())
+disk_s = str(os.popen('df -h | grep -w "%s"' % disk_part).readline())
 # disk_data_root = str(os.system('df -h | grep /home'))
 
 disk_data_home = disk_s.split()
