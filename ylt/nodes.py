@@ -33,6 +33,3 @@ def main(title="计算节点出问题",
         s = "%s\n\n其他\n%s" % (error_str, os.popen("sinfo-s").read())
         save_log2("%s\n%s" % (title, s), log_file)
         send_mails(title, s, to_mail_users, limits_sec_mail_node)
-
-
-main()

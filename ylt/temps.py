@@ -36,6 +36,3 @@ def main(title="服务器master温度过高提醒",
         content += "\n\n当前top：\n" + os.popen('top -bi -n 1 -d 0.02').read()
 
         send_mails(title, content, to_mail_users, limits_sec_mail_temp)
-
-
-main()
