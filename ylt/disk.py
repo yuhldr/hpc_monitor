@@ -69,6 +69,3 @@ def main(title="集群磁盘占用提醒",
     s = "分区：%s，占用率：%d" % (disk_part, rate_now)
 
     save_log2(s, log_file)
-
-
-main()
