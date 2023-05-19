@@ -1,13 +1,13 @@
 import os
 import socket
-from ylt.utils.my_log import getTime, save_log2
+from ylt.utils.my_log import save_log2
 from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 
 
 # 磁盘使用率到达多少时体系
 warning_disk_home_rates = [80, 90, 95, 98]
 # 每隔多少小时提醒
-warning_disk_home_times = [24 * 30*60, 7 * 24*60, 6*60, 1*60]
+warning_disk_home_times = [30*24*60*60, 7*24*60*60, 6*60*60, 1*60*60]
 # 提醒内容
 warning_disk_home_msgs = [
     "磁盘占用已经到达警戒值，请提醒清理各自空间",

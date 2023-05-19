@@ -1,11 +1,10 @@
 import os
 import shutil
 import time
-
-cache_dir = os.path.abspath('.') + "/cache"
+from ylt import cache_dir, this_path
 
 file_max_size = 1  # Mb，日志文件多大保存一次
-log_dir = os.path.abspath('.') + "/log"
+log_dir = this_path + "/log/"
 
 
 def save_log2(content_, log_file_name, test=False):
@@ -21,7 +20,7 @@ def save_log2(content_, log_file_name, test=False):
 def save_log(content, log_file_name):
     make_dir(log_dir)
 
-    log_file = log_dir + "/" + log_file_name
+    log_file = log_dir + log_file_name
 
     with open(log_file, 'a') as file:
         file.write(content)
@@ -32,13 +31,13 @@ def save_log(content, log_file_name):
 # M
 def file_size(log_file):
     log_name = os.path.split(log_file)[1].replace(".log", "")
-    ip_cache_dir_ = cache_dir + "/" + log_name
+    ip_cache_dir_ = cache_dir + log_name + "/"
     make_dir(ip_cache_dir_)
 
     fsize = os.path.getsize(log_file) / float(1024 * 1024)
 
     if fsize > file_max_size:
-        shutil.move(log_file, ip_cache_dir_ + "/" + getTime() + ".log")
+        shutil.move(log_file, ip_cache_dir_ + getTime() + ".log")
     return fsize
 
 
