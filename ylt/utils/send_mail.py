@@ -62,12 +62,12 @@ def send_mail(subject,
     print("发送中……")
     try:
         # 通过ssl方式发送，服务器地址，端口
-        # s = smtplib.SMTP_SSL(smtp_server, smtp_port)
-        # # 登录到邮箱
-        # s.login(msg_from, passwd)
-        # # 发送邮件：发送方，收件方，要发送的消息
-        # s.sendmail(msg_from, msg_to, msg.as_string())
-        # s.quit()
+        s = smtplib.SMTP_SSL(smtp_server, smtp_port)
+        # 登录到邮箱
+        s.login(msg_from, passwd)
+        # 发送邮件：发送方，收件方，要发送的消息
+        s.sendmail(msg_from, msg_to, msg.as_string())
+        s.quit()
 
         rj.saveRecord(rj_key)
 
