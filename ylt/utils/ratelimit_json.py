@@ -1,10 +1,10 @@
 import os
 import time
 import json
+from ylt import cache_dir
 
-cache_dir = os.path.abspath('.') + "/cache"
 ratelimit_file = "ratelimit.json"
-ratelimit_path = cache_dir + "/" + ratelimit_file
+ratelimit_path = cache_dir + ratelimit_file
 
 if not os.path.exists(cache_dir):
     os.makedirs(cache_dir)
