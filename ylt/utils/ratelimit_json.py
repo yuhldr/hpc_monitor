@@ -28,9 +28,9 @@ def overLimit(key, span_sec):
 
 
 def clear_old(data):
-    for key in data:
+    for key in list(data.keys()):
         # 太久的，不保留
-        if (time.time() - data[key] > 60 * 60 * 24):
+        if (time.time() - data[key] > 60 * 60 * 24 * 365):
             data.pop(key)
     return data
 
