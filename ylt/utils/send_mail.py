@@ -37,9 +37,9 @@ def send_mail(subject,
     rj_key = "%s_%s" % (subject, mail_to_usr)
     overLimit, span_sec = rj.overLimit(rj_key, limit_sec)
     if (not overLimit):
-        log_str = "邮件发生太频繁[%.2f/%d]s，本次暂停：\n\n%s\n\n%s\n\n%s\n" % (
-            span_sec, limit_sec, subject, mail_to_usr, content)
-        save_log2(log_str, "mail.log")
+        log_str = "邮件发生太频繁[%.2f/%d]s，本次暂停：\n\n%s\n\n%s" % \
+            (span_sec, limit_sec, subject, mail_to_usr)
+        save_log2(log_str, "mail_limit.log")
 
         return
 

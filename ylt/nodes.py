@@ -2,7 +2,6 @@ import os
 from ylt.utils.my_log import save_log2
 from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 
-
 code_sinfo_s = "/usr/local/bin/sinfo-s"
 code_sinfo = '/usr/local/slurm/bin/sinfo -N  -O "nodelist:.6,available:.6,statelong:.12,cpusstate:.16"'
 
@@ -51,7 +50,7 @@ def main(title="计算节点[%s]出问题",
     error_title, error_str = getNodes()
 
     # 8小时不重复
-    limits_sec_mail_node = 1 * 60 * 60
+    limits_sec_mail_node = 8 * 60 * 60
 
     if (len(error_str) > 0):
         title = title % error_title
