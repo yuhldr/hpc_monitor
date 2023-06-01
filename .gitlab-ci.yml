@@ -8,4 +8,4 @@ deploy:
   stage: deploy
 
   script: 
-    - cd /home/data/gitFile/linux_tools && git pull
+    - cd /home/data/gitFile/linux_tools && git pull && /opt/anaconda3/bin/pip install .
