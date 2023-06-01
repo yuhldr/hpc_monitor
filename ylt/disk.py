@@ -3,16 +3,16 @@ import socket
 from ylt.utils.my_log import save_log2
 from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 
-
 # 磁盘使用率到达多少时体系
 warning_disk_home_rates = [80, 90, 95, 98]
 # 每隔多少小时提醒
-warning_disk_home_times = [30*24*60*60, 7*24*60*60, 6*60*60, 1*60*60]
+warning_disk_home_times = [
+    30 * 24 * 60 * 60, 7 * 24 * 60 * 60, 6 * 60 * 60, 1 * 60 * 60
+]
 # 提醒内容
 warning_disk_home_msgs = [
-    "磁盘占用已经到达警戒值，请提醒清理各自空间",
-    "磁盘占用过高！影响服务器性能！，请提醒用户清理各自空间", "磁盘占用极高！严重影响服务器性能！，请提醒占用过多的同学，立刻清理、转移数据",
-    "磁盘占用危险！有崩盘风险！，请管理员立刻清理空间"
+    "磁盘占用已经到达警戒值，请提醒清理各自空间", "磁盘占用过高！影响服务器性能！，请提醒用户清理各自空间",
+    "磁盘占用极高！严重影响服务器性能！，请提醒占用过多的同学，立刻清理、转移数据", "磁盘占用危险！有崩盘风险！，请管理员立刻清理空间"
 ]
 
 
@@ -25,10 +25,11 @@ def get_rate_i(rate_now, rates):
     return -1
 
 
-def main(title="集群磁盘占用提醒",
-         log_file="disk_home.log",
-         to_mail_users=["***REMOVED***", "***REMOVED***", "***REMOVED***"],
-         disk_part="/home"):
+def main(
+        title="集群磁盘占用提醒",
+        log_file="disk_home.log",
+        to_mail_users=["***REMOVED***", "***REMOVED***", "***REMOVED***"],
+        disk_part="/home"):
     home_user_dir = "/home/data/disk_home/home_today.txt"
 
     # 80, 90, 95, 98
