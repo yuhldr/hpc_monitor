@@ -1,0 +1,11 @@
+
+stages:
+  - deploy
+
+
+deploy:
+
+  stage: deploy
+
+  script: 
+    - cd /home/data/gitFile/linux_tools && git pull
