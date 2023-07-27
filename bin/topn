@@ -1,0 +1,16 @@
+#! /bin/bash
+
+#curPath=$(readlink -f "$(dirname "$0")")
+
+notices="×××××节点$1: 每分钟更新一次×××××"
+
+echo
+echo $notices
+echo
+
+#cat $curPath/../topnode$1 | grep -v root
+cat /opt/public/tops/topnode$1 | grep -v root
+
+echo
+echo $notices
+
