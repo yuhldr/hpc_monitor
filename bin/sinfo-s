@@ -1,0 +1,7 @@
+#! /bin/bash
+#sinfo -N -o "%.6N %.5P %.5a %.11T %.8m %.8e %.8O %.15C"
+echo
+
+/usr/local/slurm/bin/sinfo -N  -O "nodelist:.6,partition:.10,available:.6,statelong:.12,memory:.12,allocmem:.10,freemem:.10,cpusstate:.16"
+
+cat /home/data/gitFile/linux_tools/example/cache/ns_state.txt

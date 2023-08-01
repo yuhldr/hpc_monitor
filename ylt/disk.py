@@ -39,7 +39,7 @@ def main(to_mail_users,
         title="集群磁盘占用提醒",
         log_file="disk_home.log",
         disk_part="/home"):
-    """磁盘监控主入口
+    """监控master磁盘情况，主要是home
 
     Args:
         to_mail_users (list): 发给谁

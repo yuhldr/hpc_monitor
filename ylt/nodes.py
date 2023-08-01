@@ -65,7 +65,7 @@ def get_nodes():
 def main(to_mail_users,
          title="计算节点[%s]出问题",
          log_file="nodes.log"):
-    """主页
+    """显示node节点是否出现问题，比如掉线
 
     Args:
         to_mail_users (_type_): _description_

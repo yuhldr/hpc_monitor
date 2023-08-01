@@ -5,11 +5,17 @@ from ylt import nodes
 from ylt import ns_state
 
 
-to_mail_users_disk=["***REMOVED***", "***REMOVED***", "***REMOVED***"]
+# 监控master温度
 to_mail_users_temp=["***REMOVED***", "***REMOVED***"]
-to_mail_users_nodes=["***REMOVED***"]
-
 temps.main(to_mail_users_temp)
+
+# 监控master磁盘
+to_mail_users_disk=["***REMOVED***", "***REMOVED***", "***REMOVED***"]
 disk.main(to_mail_users_disk)
+
+# 监控节点在线状态
+to_mail_users_nodes=["***REMOVED***"]
 nodes.main(to_mail_users_nodes)
-ns_state.main()
+
+# 显示独立服务器状态
+ns_state.main(["ns1", "ns2", "ns3", "ns4"])
