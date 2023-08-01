@@ -1,3 +1,4 @@
+'''master硬盘占有监控'''
 import os
 import socket
 from ylt.utils.my_log import save_log2
@@ -17,23 +18,39 @@ warning_disk_home_msgs = [
 
 
 def get_rate_i(rate_now, rates):
-    ns = len(rates)
-    for n in range(ns):
-        ni = ns - 1 - n
-        if (rate_now >= rates[ni]):
-            return ni
+    """_summary_
+
+    Args:
+        rate_now (_type_): _description_
+        rates (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    ns_rate = len(rates)
+    for n_rate in range(ns_rate):
+        n_i = ns_rate - 1 - n_rate
+        if rate_now >= rates[n_i]:
+            return n_i
     return -1
 
 
-def main(
+def main(to_mail_users,
         title="集群磁盘占用提醒",
         log_file="disk_home.log",
-        to_mail_users=["***REMOVED***", "***REMOVED***", "***REMOVED***"],
         disk_part="/home"):
+    """磁盘监控主入口
+
+    Args:
+        to_mail_users (list): 发给谁
+        title (str, optional): _description_. Defaults to "集群磁盘占用提醒".
+        log_file (str, optional): _description_. Defaults to "disk_home.log".
+        disk_part (str, optional): _description_. Defaults to "/home".
+    """
     home_user_dir = "/home/data/disk_home/home_today.txt"
 
     # 80, 90, 95, 98
-    disk_s = str(os.popen('df -h | grep -w "%s"' % disk_part).readline())
+    disk_s = str(os.popen(f'df -h | grep -w "{disk_part}"').readline())
 
     # disk_data_home = disk_s.replace("25%", "96%").split()
     disk_data_home = disk_s.split()
@@ -42,31 +59,31 @@ def main(
 
     rate_now = int(disk_data_home[4].replace("%", ""))
 
-    ni = get_rate_i(rate_now, warning_disk_home_rates)
+    ni_rate = get_rate_i(rate_now, warning_disk_home_rates)
 
-    print(ni)
+    print(ni_rate)
 
-    if ni < 0:
+    if ni_rate < 0:
         return
-    limits_sec = warning_disk_home_times[ni]
+    limits_sec = warning_disk_home_times[ni_rate]
 
     hostname = socket.gethostname()
 
     mail_title = hostname + "：" + title
 
-    content = warning_disk_home_msgs[ni] + \
-        "\n\n当前磁盘%s占用 %d：\n%s" % (disk_part, rate_now, disk_s)
+    content = warning_disk_home_msgs[ni_rate] + \
+        f"\n\n当前磁盘{disk_part}占用 {rate_now}：\n{disk_s}"
 
-    if (os.path.exists(home_user_dir)):
+    if os.path.exists(home_user_dir):
         content += "\n以下是每个用户详细使用情况：\n\n"
-        with open(home_user_dir, "r") as file:
-            s = file.read()
-            content += s
+        with open(home_user_dir, "r", encoding="utf-8") as file:
+            s_home = file.read()
+            content += s_home
     else:
-        content += "详细使用情况请查看 %s" % home_user_dir
+        content += f"详细使用情况请查看 {home_user_dir}"
 
     send_mails(mail_title, content, to_mail_users, limits_sec)
 
-    s = "分区：%s，占用率：%d" % (disk_part, rate_now)
+    s_home = f"分区：{disk_part}，占用率：{rate_now}"
 
-    save_log2(s, log_file)
+    save_log2(s_home, log_file)
