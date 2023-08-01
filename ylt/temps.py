@@ -33,7 +33,7 @@ def get_cpu():
 def main(to_mail_users,
          title="服务器master温度过高提醒",
          log_file="temp.log"):
-    """60s 内不重复发邮件，其实定时任务5分种才一次。。。。
+    """监控master的cpu核心温度。60s 内不重复发邮件
 
     Args:
         to_mail_users (list): 发给谁

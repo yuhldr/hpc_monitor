@@ -55,23 +55,24 @@ def get_mem(ns_name):
     return mem_ok, mem_no
 
 
-def main(num=4):
-    """主入口，收集ns服务器信息
+def main(server_names):
+    """显示某些独立服务器核心等状态
+
+    Args:
+        server_names (list): 服务器hostname.
     """
     msg = "\n\n小服务器     cpu核心数(空闲/总)  内存(可用/总 单位G)"
-    for n_i in range(num):
-        print(n_i)
-        ns_name = f"ns{n_i+1}"
-        msg += f"\n  {ns_name} {'':8s}"
-        cpu_ok, cpu_no = get_cpu(ns_name)
+    for server_name in server_names:
+        msg += f"\n  {server_name} {'':8s}"
+        cpu_ok, cpu_no = get_cpu(server_name)
         msg += f"{cpu_ok:3d}/{cpu_ok+cpu_no:3d} {'':12s}"
 
-        mem_ok, mem_no = get_mem(ns_name)
+        mem_ok, mem_no = get_mem(server_name)
         msg += f"{mem_ok:3.2f}/ {mem_no+mem_ok:3.2f}"
 
     print(msg)
 
-    with open("ns_state.txt", "w", encoding="utf-8") as file:
+    with open("cache/ns_state.txt", "w", encoding="utf-8") as file:
         file.write(msg+"\n")
 
 
