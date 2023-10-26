@@ -3,6 +3,7 @@ from ylt import temps
 from ylt import disk
 from ylt import nodes
 from ylt import ns_state
+from ylt import topn
 
 
 # 监控master温度
@@ -19,3 +20,7 @@ nodes.main(to_mail_users_nodes)
 
 # 显示独立服务器状态
 ns_state.main(["ns1", "ns2", "ns3", "ns4"])
+
+
+# 获取每个节点的top信息
+topn.main()
