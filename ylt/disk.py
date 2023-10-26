@@ -1,8 +1,12 @@
 '''master硬盘占有监控'''
 import os
 import socket
-from ylt.utils.my_log import save_log2
+from ylt.utils.my_log import save_log2, getTime
 from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
+from ylt import cache_dir
+
+DISK_PATH = f"{cache_dir}/disk/"
+DISK_HOME_DODAY_PATH = f'{DISK_PATH}/home_{getTime("%Y_%m_%d")}.txt'
 
 # 磁盘使用率到达多少时体系
 warning_disk_home_rates = [80, 90, 95, 98]
@@ -15,6 +19,10 @@ warning_disk_home_msgs = [
     "磁盘占用已经到达警戒值，请提醒清理各自空间", "磁盘占用过高！影响服务器性能！，请提醒用户清理各自空间",
     "磁盘占用极高！严重影响服务器性能！，请提醒占用过多的同学，立刻清理、转移数据", "磁盘占用危险！有崩盘风险！，请管理员立刻清理空间"
 ]
+
+
+def ref_data():
+    os.popen(f'du -h --max-depth=1  /home |sort -hr > "{DISK_HOME_DODAY_PATH}')
 
 
 def get_rate_i(rate_now, rates):
@@ -47,7 +55,6 @@ def main(to_mail_users,
         log_file (str, optional): _description_. Defaults to "disk_home.log".
         disk_part (str, optional): _description_. Defaults to "/home".
     """
-    home_user_dir = "/home/data/disk_home/home_today.txt"
 
     # 80, 90, 95, 98
     disk_s = str(os.popen(f'df -h | grep -w "{disk_part}"').readline())
@@ -74,13 +81,13 @@ def main(to_mail_users,
     content = warning_disk_home_msgs[ni_rate] + \
         f"\n\n当前磁盘{disk_part}占用 {rate_now}：\n{disk_s}"
 
-    if os.path.exists(home_user_dir):
+    if os.path.exists(DISK_HOME_DODAY_PATH):
         content += "\n以下是每个用户详细使用情况：\n\n"
-        with open(home_user_dir, "r", encoding="utf-8") as file:
+        with open(DISK_HOME_DODAY_PATH, "r", encoding="utf-8") as file:
             s_home = file.read()
             content += s_home
     else:
-        content += f"详细使用情况请查看 {home_user_dir}"
+        content += f"详细使用情况请查看 {DISK_HOME_DODAY_PATH}"
 
     send_mails(mail_title, content, to_mail_users, limits_sec)
 

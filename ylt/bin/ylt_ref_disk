@@ -1,0 +1,9 @@
+#! /usr/bin/env python
+
+"""每天刷新一下每个人硬盘使用情况
+00 00 * * * monitor_disk
+"""
+from ylt import disk
+
+if __name__ == "__main__":
+    disk.ref_data()
