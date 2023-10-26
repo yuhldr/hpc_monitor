@@ -6,11 +6,9 @@ from ylt import cache_dir
 ratelimit_file = "ratelimit.json"
 ratelimit_path = cache_dir + ratelimit_file
 
-if not os.path.exists(cache_dir):
-    os.makedirs(cache_dir)
 
-if (not os.path.exists(ratelimit_path)):
-    with open(ratelimit_path, "w") as file:
+if not os.path.exists(ratelimit_path):
+    with open(ratelimit_path, "w", encoding="utf-8") as file:
         file.write("{}")
 
 
