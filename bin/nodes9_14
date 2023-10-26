@@ -1,9 +1,0 @@
-#! /bin/sh
-
-for node in node11 node12 node13 node14;
-do
-    echo $node
-    ssh $node $1
-    echo "------"
-    echo ""
-done
