@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 """需要每隔几分钟刷新一下服务器使用情况
-* * * * * ylt
+* * * * * /opt/anaconda3/bin/ylt
 """
 
 from ylt import temps

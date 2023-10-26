@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 """每天刷新一下每个人硬盘使用情况
-00 00 * * * monitor_disk
+00 02 * * * /opt/anaconda3/bin/ylt_ref_disk
 """
 from ylt import disk
 
