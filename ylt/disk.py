@@ -22,7 +22,7 @@ warning_disk_home_msgs = [
 
 
 def ref_data():
-    os.popen(f'du -h --max-depth=1  /home |sort -hr > "{DISK_HOME_DODAY_PATH}')
+    os.popen(f'du -h --max-depth=1  /home |sort -hr > {DISK_HOME_DODAY_PATH}')
 
 
 def get_rate_i(rate_now, rates):
