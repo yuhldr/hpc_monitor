@@ -16,5 +16,7 @@ if __name__ == "__main__":
         notices=f"\n\n×××××节点{nodeN}: 每分钟更新一次×××××\n\n"
         print(notices)
         with open(f"{TOPS_PATH}/topnode{nodeN}", "r", encoding="utf-8") as file:
-            print(file.read())
+            for line in file:
+                if 'root' != line.strip().split()[1]:
+                    print(line.strip())
         print(notices)
