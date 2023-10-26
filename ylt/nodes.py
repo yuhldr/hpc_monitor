@@ -1,8 +1,28 @@
+'''
+node是否在线，top情况
+'''
 import os
 from ylt.utils.my_log import save_log2
 from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
+from ylt import cache_dir
 
 CODE_SINFO_S = "/usr/local/bin/sinfo-s"
+
+
+TOPS_PATH = f"{cache_dir}/tops/"
+
+if not os.path.exists(TOPS_PATH):
+    os.makedirs(TOPS_PATH)
+
+
+def main(ns=range(14)):
+    """获取每个节点的top信息
+
+    Args:
+        n (int, optional): _description_. Defaults to 14.
+    """
+    for i in ns:
+        os.popen(f'ssh node{i+1} "top -b -n 1" > {TOPS_PATH}/topnode{i+1}')
 
 
 def node_ok(lines):

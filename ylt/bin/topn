@@ -1,16 +1,20 @@
-#! /bin/bash
+#! /usr/bin/env python
 
-curPath=$(dirname "$(readlink -f "$0")")/../example/cache/tops/
+"""
+查看其他节点 top 信息
+"""
+import sys
+from ylt.nodes import TOPS_PATH
 
-notices="×××××节点$1: 每分钟更新一次×××××"
-
-echo
-echo $notices
-echo
-
-#cat $curPath/../topnode$1 | grep -v root
-cat $curPath/topnode$1 | grep -v root
-
-echo
-echo $notices
-
+if __name__ == "__main__":
+    args = sys.argv
+    print(args)
+    if len(args) <= 1:
+        print("请输入：topn 2 以查看node2节点的top信息\ntopn X 可查看nodeX的信息")
+    else:
+        nodeN = args[1]
+        notices=f"\n\n×××××节点{nodeN}: 每分钟更新一次×××××\n\n"
+        print(notices)
+        with open(f"{TOPS_PATH}/topnode{nodeN}", "r", encoding="utf-8") as file:
+            print(file.read())
+        print(notices)
