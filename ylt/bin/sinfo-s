@@ -1,7 +1,18 @@
-#! /bin/bash
-#sinfo -N -o "%.6N %.5P %.5a %.11T %.8m %.8e %.8O %.15C"
-echo
+#! /usr/bin/env python
 
-/usr/local/slurm/bin/sinfo -N  -O "nodelist:.6,partition:.10,available:.6,statelong:.12,memory:.12,allocmem:.10,freemem:.10,cpusstate:.16"
+"""
+查看其他节点 top 信息
+"""
+import os
+from ylt.ns_state import NS_STATE_PATH
 
-cat /home/data/gitFile/linux_tools/example/cache/ns_state.txt
+
+CODE_SINFO = "/usr/local/slurm/bin/sinfo"
+ARG_SINFO = "nodelist:.6,partition:.10,available:.6,statelong:.12,memory:.12,allocmem:.10,freemem:.10,cpusstate:.16"
+
+if __name__ == "__main__":
+    sinfo = os.popen(f'{CODE_SINFO} -N  -O "{ARG_SINFO}"')
+    print(sinfo)
+
+    with open(NS_STATE_PATH, "r", encoding="utf-8") as file:
+        print(file.read())

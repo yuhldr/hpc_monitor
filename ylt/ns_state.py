@@ -1,5 +1,9 @@
 '''获取独立服务器信息'''
 import os
+from ylt import cache_dir
+
+NS_STATE_PATH = f'{cache_dir}/ns_state.txt'
+
 
 def get_cpu(ns_name, cpu_ok_rate=20):
     """_summary_
@@ -72,7 +76,7 @@ def main(server_names):
 
     print(msg)
 
-    with open("cache/ns_state.txt", "w", encoding="utf-8") as file:
+    with open(NS_STATE_PATH, "w", encoding="utf-8") as file:
         file.write(msg+"\n")
 
 
