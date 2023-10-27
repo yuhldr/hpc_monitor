@@ -22,7 +22,7 @@ def ref_node_top(ns=range(14)):
         n (int, optional): _description_. Defaults to 14.
     """
     for i in ns:
-        os.popen(f'ssh node{i+1} "top -b -n 1" > {TOPS_PATH}/topnode{i+1}')
+        os.popen(f'ssh node{i+1} "top -b -n 1 -w 512" > {TOPS_PATH}/topnode{i+1}')
 
 
 def node_ok(lines):
