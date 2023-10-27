@@ -8,16 +8,16 @@ from ylt.nodes import TOPS_PATH
 
 if __name__ == "__main__":
     args = sys.argv
-    print(args)
     if len(args) <= 1:
         print("请输入：topn 2 以查看node2节点的top信息\ntopn X 可查看nodeX的信息")
     else:
         nodeN = args[1]
-        notices=f"\n×××××节点{nodeN}: 每分钟更新一次×××××\n"
+        notices=f"\n×××××节点 node{nodeN}: 每分钟更新一次×××××\n"
         print(notices)
         top_file = f"{TOPS_PATH}/topnode{nodeN}"
         with open(top_file, "r", encoding="utf-8") as file:
             for line in file.readlines():
-                if 'root' not in line.strip():
+                lns = line.strip().split()
+                if len(lns) > 2 and 'root' != lns[1]:
                     print(line.strip())
         print(notices)
