@@ -8,7 +8,6 @@ from ylt import temps
 from ylt import disk
 from ylt import nodes
 from ylt import ns_state
-from ylt import topn
 
 
 # 监控master温度
@@ -28,4 +27,4 @@ ns_state.main(["ns1", "ns2", "ns3", "ns4"])
 
 
 # 获取每个节点的top信息
-topn.main()
+nodes.ref_node_top()

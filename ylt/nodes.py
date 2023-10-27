@@ -15,7 +15,7 @@ if not os.path.exists(TOPS_PATH):
     os.makedirs(TOPS_PATH)
 
 
-def main(ns=range(14)):
+def ref_node_top(ns=range(14)):
     """获取每个节点的top信息
 
     Args:
