@@ -4,15 +4,15 @@ node是否在线，top情况
 import os
 from ylt.utils.my_log import save_log2
 from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
-from ylt import cache_dir
+from ylt import CACHE_DIR
+from ylt.utils.my_file import check_dir
+
 
 CODE_SINFO_S = "/usr/local/bin/sinfo-s"
 
 
-TOPS_PATH = f"{cache_dir}/tops/"
-
-if not os.path.exists(TOPS_PATH):
-    os.makedirs(TOPS_PATH)
+TOPS_PATH = f"{CACHE_DIR}/tops/"
+check_dir(TOPS_PATH)
 
 
 def ref_node_top(ns=range(14)):

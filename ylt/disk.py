@@ -3,9 +3,12 @@ import os
 import socket
 from ylt.utils.my_log import save_log2, getTime
 from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
-from ylt import cache_dir
+from ylt import CACHE_DIR
+from ylt.utils.my_file import check_dir
 
-DISK_PATH = f"{cache_dir}/disk/"
+
+DISK_PATH = f"{CACHE_DIR}/disk/"
+check_dir(DISK_PATH)
 DISK_HOME_DODAY_PATH = f'{DISK_PATH}/home_{getTime("%Y_%m_%d")}.txt'
 
 # 磁盘使用率到达多少时体系

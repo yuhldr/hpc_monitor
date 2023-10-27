@@ -1,12 +1,12 @@
 """初始化一些数据
 """
 import os
+from ylt.utils.my_file import check_dir
+
 
 this_path = os.path.abspath('.')
 # cache_dir = this_path + "/cache/"
 # cache_dir = os.path.join(os.path.expanduser('~'), '.cache/ylt')
-cache_dir = "/opt/ylt/cache/"
+CACHE_DIR = "/opt/ylt/cache/"
 
-
-if not os.path.exists(cache_dir):
-    os.makedirs(cache_dir)
+check_dir(CACHE_DIR)

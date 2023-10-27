@@ -1,7 +1,9 @@
 import os
 import shutil
 import time
-from ylt import cache_dir, this_path
+from ylt import CACHE_DIR, this_path
+from ylt.utils.my_file import check_dir
+
 
 file_max_size = 1  # Mb，日志文件多大保存一次
 log_dir = this_path + "/log/"
@@ -18,11 +20,11 @@ def save_log2(content_, log_file_name, test=False):
 
 
 def save_log(content, log_file_name):
-    make_dir(log_dir)
+    check_dir(log_dir)
 
     log_file = log_dir + log_file_name
 
-    with open(log_file, 'a') as file:
+    with open(log_file, 'a', encoding="utf-8") as file:
         file.write(content)
 
     file_size(log_file)
@@ -31,8 +33,8 @@ def save_log(content, log_file_name):
 # M
 def file_size(log_file):
     log_name = os.path.split(log_file)[1].replace(".log", "")
-    ip_cache_dir_ = cache_dir + log_name + "/"
-    make_dir(ip_cache_dir_)
+    ip_cache_dir_ = CACHE_DIR + log_name + "/"
+    check_dir(ip_cache_dir_)
 
     fsize = os.path.getsize(log_file) / float(1024 * 1024)
 
@@ -72,8 +74,3 @@ def get_time_friend_span(t1, t2=time.time()):
         return "%.3f d" % (span_sec / unit_day)
     else:
         return time2str(t2)
-
-
-def make_dir(dir):
-    if not os.path.exists(dir):
-        os.makedirs(dir)

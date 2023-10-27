@@ -1,8 +1,8 @@
 '''获取独立服务器信息'''
 import os
-from ylt import cache_dir
+from ylt import CACHE_DIR
 
-NS_STATE_PATH = f'{cache_dir}/ns_state.txt'
+NS_STATE_PATH = f'{CACHE_DIR}/ns_state.txt'
 
 
 def get_cpu(ns_name, cpu_ok_rate=20):

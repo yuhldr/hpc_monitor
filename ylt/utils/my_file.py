@@ -27,3 +27,23 @@ def del_old_data(path, date_max=31536000):
         # 如果文件创建时间在一年之前，删除该文件
         if now - file_created_time > date_max:
             os.remove(filepath)
+
+
+def check_dirs(paths):
+    """创建多个文件夹，但是上一级文件夹必须存在
+
+    Args:
+        paths (_type_): _description_
+    """
+    for path in paths:
+        check_dir(path)
+
+
+def check_dir(path):
+    """创建多个文件夹，但是上一级文件夹必须存在
+
+    Args:
+        paths (list): _description_
+    """
+    if not os.path.exists(path):
+        os.mkdir(path)
