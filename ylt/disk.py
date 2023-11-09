@@ -25,7 +25,11 @@ warning_disk_home_msgs = [
 
 
 def ref_data():
-    os.popen(f'du -h --max-depth=1  /home |sort -hr > {DISK_HOME_DODAY_PATH}')
+    """获取用户使用详细信息
+    """
+    code = f'du -h --max-depth=1  /home |sort -hr > {DISK_HOME_DODAY_PATH}'
+    print(code)
+    os.popen(code)
 
 
 def get_rate_i(rate_now, rates):

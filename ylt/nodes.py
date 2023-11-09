@@ -2,13 +2,13 @@
 node是否在线，top情况
 '''
 import os
-from ylt.utils.my_log import save_log2
-from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
+
 from ylt import CACHE_DIR
 from ylt.utils.my_file import check_dir
+from ylt.utils.my_log import save_log2
+from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 
-
-CODE_SINFO_S = "/usr/local/bin/sinfo-s"
+CODE_SINFO_S = "/usr/bin/sinfo-s"
 
 
 TOPS_PATH = f"{CACHE_DIR}/tops/"
