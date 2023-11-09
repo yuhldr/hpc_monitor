@@ -1,11 +1,12 @@
 '''master硬盘占有监控'''
 import os
 import socket
-from ylt.utils.my_log import save_log2, getTime
-from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
+import subprocess
+
 from ylt import CACHE_DIR
 from ylt.utils.my_file import check_dir
-
+from ylt.utils.my_log import getTime, save_log2
+from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 
 DISK_PATH = f"{CACHE_DIR}/disk/"
 check_dir(DISK_PATH)
@@ -29,7 +30,7 @@ def ref_data():
     """
     code = f'du -h --max-depth=1  /home |sort -hr > {DISK_HOME_DODAY_PATH}'
     print(code)
-    os.popen(code)
+    subprocess.call(code, shell=True)
 
 
 def get_rate_i(rate_now, rates):
