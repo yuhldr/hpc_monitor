@@ -11,6 +11,7 @@ from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 DISK_PATH = f"{CACHE_DIR}/disk/"
 check_dir(DISK_PATH)
 DISK_HOME_DODAY_PATH = f'{DISK_PATH}/home_{getTime("%Y_%m_%d")}.txt'
+DISK_HOME_TODAY = f"{DISK_PATH}/home_today.txt"
 
 # 磁盘使用率到达多少时体系
 warning_disk_home_rates = [80, 90, 95, 98]
@@ -31,6 +32,8 @@ def ref_data():
     code = f'du -h --max-depth=1  /home |sort -hr > {DISK_HOME_DODAY_PATH}'
     print(code)
     subprocess.call(code, shell=True)
+    code_cp = f"rm -f {DISK_HOME_TODAY} && cp {DISK_HOME_DODAY_PATH} {DISK_HOME_TODAY}"
+    subprocess.call(code_cp, shell=True)
 
 
 def get_rate_i(rate_now, rates):
@@ -89,13 +92,13 @@ def main(to_mail_users,
     content = warning_disk_home_msgs[ni_rate] + \
         f"\n\n当前磁盘{disk_part}占用 {rate_now}：\n{disk_s}"
 
-    if os.path.exists(DISK_HOME_DODAY_PATH):
+    if os.path.exists(DISK_HOME_TODAY):
         content += "\n以下是每个用户详细使用情况：\n\n"
-        with open(DISK_HOME_DODAY_PATH, "r", encoding="utf-8") as file:
+        with open(DISK_HOME_TODAY, "r", encoding="utf-8") as file:
             s_home = file.read()
             content += s_home
     else:
-        content += f"详细使用情况请查看 {DISK_HOME_DODAY_PATH}"
+        content += f"详细使用情况请查看 {DISK_HOME_TODAY}"
 
     send_mails(mail_title, content, to_mail_users, limits_sec)
 
