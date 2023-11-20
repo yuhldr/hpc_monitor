@@ -4,22 +4,29 @@
 * * * * * /opt/anaconda3/bin/ylt
 """
 
-from ylt import temps
-from ylt import disk
-from ylt import nodes
-from ylt import ns_state
+from ylt import disk, nodes, ns_state, temps
 
+# ***REMOVED***
+LIUXIAONAN = "***REMOVED***"
+# ***REMOVED***
+YUH = "***REMOVED***"
+# ***REMOVED***
+WANGYISEN = "***REMOVED***"
+# ***REMOVED***
+DONGJIAQI = "***REMOVED***"
+# ***REMOVED***
+ZHAOBAOTONG = "***REMOVED***"
 
 # 监控master温度
-to_mail_users_temp=["***REMOVED***", "***REMOVED***"]
+to_mail_users_temp = [YUH, ZHAOBAOTONG]
 temps.main(to_mail_users_temp)
 
 # 监控master磁盘
-to_mail_users_disk=["***REMOVED***", "***REMOVED***", "***REMOVED***"]
+to_mail_users_disk = [YUH, WANGYISEN, DONGJIAQI, LIUXIAONAN]
 disk.main(to_mail_users_disk)
 
 # 监控节点在线状态
-to_mail_users_nodes=["***REMOVED***"]
+to_mail_users_nodes = [YUH]
 nodes.main(to_mail_users_nodes)
 
 # 显示独立服务器状态
