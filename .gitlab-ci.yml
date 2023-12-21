@@ -3,9 +3,9 @@ stages:
   - deploy
 
 
-deploy:
+ylt:
 
   stage: deploy
 
   script: 
-    - cd /home/data/gitFile/linux_tools && git pull && /opt/anaconda3/bin/pip install .
+    - /opt/anaconda3/bin/pip install .
