@@ -41,8 +41,8 @@ def get_cpu():
     return sum(cpus) / len(cpus)
 
 
-def get_temp_json(temp, cpu_rate, max_elements=100):
-    """获取温度、cpu相关json数据
+def get_temp_json(temp, cpu_rate, max_elements=43200):
+    """获取温度、cpu相关json数据。温度保存30天，文件预计5M大小
 
     Args:
         temp (_type_): _description_
