@@ -6,6 +6,7 @@ from ylt.utils.my_file import check_dir
 
 THIS_PATH = "/opt/ylt/"
 CACHE_DIR = THIS_PATH + "/cache/"
-# cache_dir = os.path.join(os.path.expanduser('~'), '.cache/ylt')
+# THIS_PATH = os.path.join(os.path.expanduser('~'), '.cache')
+# CACHE_DIR = os.path.join(THIS_PATH, 'ylt')
 
 check_dir(CACHE_DIR)

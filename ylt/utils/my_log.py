@@ -33,13 +33,13 @@ def save_log(content, log_file_name):
 # M
 def file_size(log_file):
     log_name = os.path.split(log_file)[1].replace(".log", "")
-    ip_cache_dir_ = CACHE_DIR + log_name + "/"
+    ip_cache_dir_ = f"{CACHE_DIR}/{log_name}/"
     check_dir(ip_cache_dir_)
 
     fsize = os.path.getsize(log_file) / float(1024 * 1024)
 
     if fsize > FILE_MAX_SIZE:
-        shutil.move(log_file, ip_cache_dir_ + getTime() + ".log")
+        shutil.move(log_file, f"{ip_cache_dir_}/{getTime()}.log")
     return fsize
 
 

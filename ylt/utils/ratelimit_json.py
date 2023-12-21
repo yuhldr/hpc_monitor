@@ -1,10 +1,11 @@
+import json
 import os
 import time
-import json
+
 from ylt import CACHE_DIR
 
-ratelimit_file = "ratelimit.json"
-ratelimit_path = CACHE_DIR + ratelimit_file
+ratelimit_file = "./ratelimit.json"
+ratelimit_path = f"{CACHE_DIR}/{ratelimit_file}"
 
 
 if not os.path.exists(ratelimit_path):
