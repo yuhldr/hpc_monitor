@@ -8,4 +8,4 @@ ylt:
   stage: deploy
 
   script: 
-    - /opt/anaconda3/bin/pip install .
+    - conda activate gr && pip install .
