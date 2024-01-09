@@ -65,10 +65,10 @@ def cm2s(param):
     cal_type, sn = param
     if cal_type == "cpu":
         cpu_ok, cpu_no = get_cpu(sn)
-        return f"{cpu_ok:3d} /{cpu_ok+cpu_no:3d} {'':8s}"
+        return f"{cpu_ok:>3d}/{cpu_ok+cpu_no:<7d}"
     else:
         mem_ok, mem_no = get_mem(sn)
-        return f"{mem_ok:3.2f} / {mem_no+mem_ok:3.2f}"
+        return f"{mem_ok:3.2f}/{mem_no+mem_ok:3.2f}"
 
 
 def ref_ns_state():
@@ -81,12 +81,19 @@ def ref_ns_state():
     with Pool(len(server_names)*2) as p:
         dd = p.map(cm2s, ps)
 
-        msg = f'{getTime(p="%Y/%m/%d %H:%M:%S")}\n小服务器     cpu核心数(空闲/总)  内存(可用/总|G)'
+        msg = f'{getTime(p="%Y/%m/%d %H:%M:%S")}\n{"小服务器":6}{"说明":5}{"CPU:空/总":10}{"内存:空/总"}'
         for i, sn in enumerate(server_names):
-            msg += f"\n  {sn} {'':8s}"
-            msg += dd[i*2]
-            msg += dd[i*2+1]
+            cs = dd[i*2].split("/")
+
+            s = "空闲"
+            if int(cs[1].strip()) == 0:
+                s = "错误"
+            elif int(cs[0]) == 0:
+                s = "繁忙"
+            elif int(cs[0]) != int(cs[1]):
+                s = "有空闲"
+            msg += f"\n{sn:10s}{s:5}{dd[i*2]:8}{dd[i*2+1]}"
 
         with open(NS_STATE_PATH, "w", encoding="utf-8") as file:
             file.write(msg+"\n")
-
+            print(msg)

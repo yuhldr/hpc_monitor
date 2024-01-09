@@ -11,9 +11,91 @@ from ylt.utils.my_log import getTime
 CODE_SINFO = "/usr/local/slurm/bin/sinfo"
 ARG_SINFO = "%.6N %.9P %.5a %.6t  %.8e/%m  %.13C   %.E"
 
-if __name__ == "__main__":
-    print(getTime(p="%Y/%m/%d %H:%M:%S"))
-    print(os.popen(f'{CODE_SINFO} -N  -o "{ARG_SINFO}"').read())
-    print(f'ns刷新有延迟，当前：{getTime(p="%Y/%m/%d %H:%M:%S")}，刷新时间：')
+TRS = {
+    "up": "在线",
+    "down": "掉线",
+    "alloc": "繁忙",
+    "drng": "暂停提交",
+    "mix": "有空闲",
+    "idle": "空闲",
+    "none": "",
+}
+
+def t(s):
+    for k,v in TRS.items():
+        s = s.replace(k, v)
+    return s
+
+
+def st2c(st):
+    """输出颜色
+
+    Args:
+        st (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    color = "31"
+    if st == "繁忙":
+        color = "33"
+    elif st == "暂停提交":
+        color = "35"
+    elif st == "空闲":
+        color = "32"
+    elif st == "有空闲":
+        color = "36"
+    return color
+
+
+def out_sinfo():
+
+    ss = os.popen(f'{CODE_SINFO} -N  -o "{ARG_SINFO}"').read().strip()
+    sts = f' {"节点":5}{"分区":5}{"状态":4}{"说明":7}{"内存:空/总":8}{"CPU:空/总":9}{"节点":5}其他'
+    print(sts)
+    for line in ss.split("\n")[1:]:
+        if len(line) == 0:
+            continue
+        ws = line.split()
+
+        sts = f"\033[{st2c(t(ws[3]))}m{ws[0]:8}{ws[1]:5}{t(ws[2]):^6}"
+
+        w_state = t(ws[3])
+        width = 14
+        padding = (width - len(w_state.encode('utf-8').decode('unicode_escape'))) // 2
+        if w_state == "暂停提交":
+            padding -= 1
+        sts += f'{w_state}{padding*" "}'
+
+        ms = ws[4].split("/")
+        sts += f'{f"{int(ms[0])/1024:>4.0f}/{int(ms[1])/1024:<4.0f}":^11}'
+
+        cs = ws[5].split("/")
+        sts += f'{f"{cs[1]:>4}/{cs[3]:<5}":^12}'
+
+        sts += f"{ws[0]:8}"
+        sts += f"{t(ws[6])}\033[0m"
+        print(sts)
+
+
+
+def out_ns():
+    s = f'\n刷新时间：'
     with open(NS_STATE_PATH, "r", encoding="utf-8") as file:
-        print(file.read().strip())
+        for i, line in enumerate(file.read().split("\n")):
+            if len(line) == 0:
+                continue
+            if i == 0:
+                print(s + line)
+                continue
+            elif i == 1:
+                print(line)
+                continue
+
+            print(f"\033[{st2c(line.split()[1])}m{line.strip()}\033[0m")
+
+
+if __name__ == "__main__":
+    print(f'当前：{getTime(p="%Y/%m/%d %H:%M:%S")}')
+    out_sinfo()
+    out_ns()
