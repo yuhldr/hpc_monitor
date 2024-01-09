@@ -11,7 +11,7 @@ CODE_SINFO = "/usr/local/slurm/bin/sinfo"
 ARG_SINFO = "%.6N %.9P %.5a %.6t  %.8e/%m  %.13C   %.E"
 
 if __name__ == "__main__":
-    sinfo = os.popen(f'{CODE_SINFO} -N  -O "{ARG_SINFO}"').read()
+    sinfo = os.popen(f'{CODE_SINFO} -N  -o "{ARG_SINFO}"').read()
     print(sinfo)
 
     with open(NS_STATE_PATH, "r", encoding="utf-8") as file:
