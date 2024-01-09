@@ -2,6 +2,7 @@
 import os
 from ylt import CACHE_DIR
 from ylt.utils.my_log import getTime
+from multiprocessing import Pool
 
 NS_STATE_PATH = f'{CACHE_DIR}/ns_state.txt'
 
@@ -60,27 +61,32 @@ def get_mem(ns_name):
     return mem_ok, mem_no
 
 
-def main(server_names):
-    """显示某些独立服务器核心等状态
-
-    Args:
-        server_names (list): 服务器hostname.
-    """
-    s = getTime(p="%Y/%m/%d %H:%M:%S")
-    msg = f'{s}\n小服务器     cpu核心数(空闲/总)  内存(可用/总|G)'
-    for server_name in server_names:
-        msg += f"\n  {server_name} {'':8s}"
-        cpu_ok, cpu_no = get_cpu(server_name)
-        msg += f"{cpu_ok:3d}/{cpu_ok+cpu_no:3d} {'':12s}"
-
-        mem_ok, mem_no = get_mem(server_name)
-        msg += f"{mem_ok:3.2f}/ {mem_no+mem_ok:3.2f}"
-
-    with open(NS_STATE_PATH, "w", encoding="utf-8") as file:
-        file.write(msg+"\n")
+def cm2s(param):
+    cal_type, sn = param
+    if cal_type == "cpu":
+        cpu_ok, cpu_no = get_cpu(sn)
+        return f"{cpu_ok:3d} /{cpu_ok+cpu_no:3d} {'':8s}"
+    else:
+        mem_ok, mem_no = get_mem(sn)
+        return f"{mem_ok:3.2f} / {mem_no+mem_ok:3.2f}"
 
 
 def ref_ns_state():
-    main(["ns1", "ns2", "ns3", "ns4"])
+    server_names = ["ns1", "ns2", "ns3", "ns4"]
+    ps = []
+    for sn in server_names:
+        for ct in ["cpu", "mem"]:
+            ps.append((ct, sn))
 
-# main()
+    with Pool(len(server_names)*2) as p:
+        dd = p.map(cm2s, ps)
+
+        msg = f'{getTime(p="%Y/%m/%d %H:%M:%S")}\n小服务器     cpu核心数(空闲/总)  内存(可用/总|G)'
+        for i, sn in enumerate(server_names):
+            msg += f"\n  {sn} {'':8s}"
+            msg += dd[i*2]
+            msg += dd[i*2+1]
+
+        with open(NS_STATE_PATH, "w", encoding="utf-8") as file:
+            file.write(msg+"\n")
+
