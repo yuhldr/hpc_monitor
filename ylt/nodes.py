@@ -34,7 +34,7 @@ def node_ok(lines):
     Returns:
         _type_: _description_
     """
-    sinfo_s = lines[7].split("/")
+    sinfo_s = lines[5].split("/")
     cpus = int(sinfo_s[0]) + int(sinfo_s[1])
     return cpus == int(sinfo_s[3])
 
