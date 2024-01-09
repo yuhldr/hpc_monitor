@@ -80,4 +80,7 @@ def main(server_names):
         file.write(msg+"\n")
 
 
+def ref_ns_state():
+    main(["ns1", "ns2", "ns3", "ns4"])
+
 # main()

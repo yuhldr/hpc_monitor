@@ -5,10 +5,13 @@ import os
 
 from ylt import CACHE_DIR
 from ylt.utils.my_file import check_dir
-from ylt.utils.my_log import save_log2
+from ylt.utils.my_log import save_log2, getTime
 from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 
 CODE_SINFO_S = "/usr/bin/sinfo-s"
+# 系统进程不显示
+TOP_NO_USER = "root|rpc|ntp|dbus|polkitd|postfix|libstor"
+CODE_TOP = f"top -b -n 1 -w 512 | grep -vE {TOP_NO_USER}"
 
 
 TOPS_PATH = f"{CACHE_DIR}/tops/"
@@ -21,8 +24,10 @@ def ref_node_top(ns=range(14)):
     Args:
         n (int, optional): _description_. Defaults to 14.
     """
+    s = getTime(p="%Y_%m_%d-%H_%M_%S")
     for i in ns:
-        os.popen(f'ssh node{i+1} "top -b -n 1 -w 512" > {TOPS_PATH}/topnode{i+1}')
+        os.popen(f'echo {s} > {TOPS_PATH}/topnode{i+1}')
+        os.popen(f'ssh node{i+1} "{CODE_TOP}" >> {TOPS_PATH}/topnode{i+1}')
 
 
 def node_ok(lines):
