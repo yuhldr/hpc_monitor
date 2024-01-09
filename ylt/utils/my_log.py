@@ -63,7 +63,6 @@ def get_time_span(t1, t2=time.time(), unit=UNIT_HOUR):
 
 def get_time_friend_span(t1, t2=time.time()):
     span_sec = get_time_span(t1, t2, UNIT_SEC)
-    print(span_sec)
     if span_sec < UNIT_MIN:
         return f"{span_sec:.3f} s"
     elif span_sec < UNIT_HOUR:

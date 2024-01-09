@@ -1,6 +1,7 @@
 '''获取独立服务器信息'''
 import os
 from ylt import CACHE_DIR
+from ylt.utils.my_log import getTime
 
 NS_STATE_PATH = f'{CACHE_DIR}/ns_state.txt'
 
@@ -65,7 +66,8 @@ def main(server_names):
     Args:
         server_names (list): 服务器hostname.
     """
-    msg = "\n\n小服务器     cpu核心数(空闲/总)  内存(可用/总 单位G)"
+    s = getTime(p="%Y/%m/%d %H:%M:%S")
+    msg = f'{s}\n小服务器     cpu核心数(空闲/总)  内存(可用/总|G)'
     for server_name in server_names:
         msg += f"\n  {server_name} {'':8s}"
         cpu_ok, cpu_no = get_cpu(server_name)
@@ -73,8 +75,6 @@ def main(server_names):
 
         mem_ok, mem_no = get_mem(server_name)
         msg += f"{mem_ok:3.2f}/ {mem_no+mem_ok:3.2f}"
-
-    print(msg)
 
     with open(NS_STATE_PATH, "w", encoding="utf-8") as file:
         file.write(msg+"\n")

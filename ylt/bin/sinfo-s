@@ -6,13 +6,14 @@
 import os
 
 from ylt.ns_state import NS_STATE_PATH
+from ylt.utils.my_log import getTime
 
 CODE_SINFO = "/usr/local/slurm/bin/sinfo"
 ARG_SINFO = "%.6N %.9P %.5a %.6t  %.8e/%m  %.13C   %.E"
 
 if __name__ == "__main__":
-    sinfo = os.popen(f'{CODE_SINFO} -N  -o "{ARG_SINFO}"').read()
-    print(sinfo)
-
+    print(getTime(p="%Y/%m/%d %H:%M:%S"))
+    print(os.popen(f'{CODE_SINFO} -N  -o "{ARG_SINFO}"').read())
+    print(f'ns刷新有延迟，当前：{getTime(p="%Y/%m/%d %H:%M:%S")}，刷新时间：')
     with open(NS_STATE_PATH, "r", encoding="utf-8") as file:
-        print(file.read())
+        print(file.read().strip())

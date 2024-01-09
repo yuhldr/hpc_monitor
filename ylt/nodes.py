@@ -10,7 +10,7 @@ from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 
 CODE_SINFO_S = "/usr/bin/sinfo-s"
 # 系统进程不显示
-TOP_NO_USER = "root|rpc|ntp|dbus|polkitd|postfix|libstor"
+TOP_NO_USER = "root|rpc|ntp|dbus|polkitd|postfix|libstor|systemd|syslog|munge"
 CODE_TOP = f"top -b -n 1 -w 512 | grep -vE '{TOP_NO_USER}'"
 
 
@@ -24,10 +24,10 @@ def ref_node_top(ns=range(14)):
     Args:
         n (int, optional): _description_. Defaults to 14.
     """
-    s = getTime(p="%Y_%m_%d-%H_%M_%S")
     for i in ns:
-        os.popen(f'echo {s} > {TOPS_PATH}/topnode{i+1}')
-        os.popen(f'ssh node{i+1} "{CODE_TOP}" >> {TOPS_PATH}/topnode{i+1}')
+        s = os.popen(f'ssh node{i+1} "{CODE_TOP}"').read()
+        st = f'××××× 节点 node1 刷新时间: {getTime(p="%Y_%m_%d-%H_%M_%S")} ×××××'
+        os.popen(f'echo "{st}\n\n{s}\n{st}" > {TOPS_PATH}/topnode{i+1}')
 
 
 def node_ok(lines):
@@ -68,7 +68,6 @@ def get_nodes():
     str_res = os.popen(CODE_SINFO_S).read()
     for line in str_res.strip().split("\n"):
         lines = line.split()
-        print(lines)
         if len(lines) == 0:
             continue
 

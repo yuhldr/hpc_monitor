@@ -30,7 +30,6 @@ def ref_data():
     """获取用户使用详细信息
     """
     code = f'du -h --max-depth=1  /home |sort -hr > {DISK_HOME_DODAY_PATH}'
-    print(code)
     subprocess.call(code, shell=True)
     code_cp = f"rm -f {DISK_HOME_TODAY} && cp {DISK_HOME_DODAY_PATH} {DISK_HOME_TODAY}"
     subprocess.call(code_cp, shell=True)
@@ -73,13 +72,9 @@ def main(to_mail_users,
     # disk_data_home = disk_s.replace("25%", "96%").split()
     disk_data_home = disk_s.split()
 
-    print(disk_s)
-
     rate_now = int(disk_data_home[4].replace("%", ""))
 
     ni_rate = get_rate_i(rate_now, warning_disk_home_rates)
-
-    print(ni_rate)
 
     if ni_rate < 0:
         return

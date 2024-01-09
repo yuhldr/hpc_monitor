@@ -84,7 +84,6 @@ def cpu_exceeded_threshold(data, threshold=15, time_period=20):
 
         # 判断CPU使用率是否超过阈值
         if entry[K_CPU] > threshold:
-            print(entry)
             return True
 
     return False
