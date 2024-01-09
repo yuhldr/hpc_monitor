@@ -62,8 +62,8 @@ def get_temp_json(temp, cpu_rate, max_elements=43200):
     return data
 
 
-def cpu_exceeded_threshold(data, threshold=25, time_period=10):
-    """最近10分钟内，是否有cpu利用率超过25%
+def cpu_exceeded_threshold(data, threshold=15, time_period=20):
+    """最近20分钟内，是否有cpu利用率超过15%
 
     Args:
         data (_type_): _description_
@@ -110,7 +110,7 @@ def main(to_mail_users,
 
     data = get_temp_json(temp, cpu)
 
-    if (temp > max_temp and not cpu_exceeded_threshold(data)) or temp > 60:
+    if (temp > max_temp and not cpu_exceeded_threshold(data)) or temp > limits_sec_mail_temp:
         d = "时间"
         t = "温度"
         c = "CPU使用率"
