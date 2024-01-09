@@ -11,7 +11,7 @@ from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 CODE_SINFO_S = "/usr/bin/sinfo-s"
 # 系统进程不显示
 TOP_NO_USER = "root|rpc|ntp|dbus|polkitd|postfix|libstor"
-CODE_TOP = f"top -b -n 1 -w 512 | grep -vE {TOP_NO_USER}"
+CODE_TOP = f"top -b -n 1 -w 512 | grep -vE '{TOP_NO_USER}'"
 
 
 TOPS_PATH = f"{CACHE_DIR}/tops/"
