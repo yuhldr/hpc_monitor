@@ -20,9 +20,10 @@ check_dir(TOPS_PATH)
 
 
 def get_top(node_n:int):
-    s = os.popen(f'ssh node{node_n+1} "{CODE_TOP}"').read()
-    st = f'××××× 节点 node1 刷新时间: {getTime(p="%Y_%m_%d-%H_%M_%S")} ×××××'
-    os.popen(f'echo "{st}\n\n{s}\n{st}" > {TOPS_PATH}/topnode{node_n+1}')
+    n = f"node{node_n+1}"
+    s = os.popen(f'ssh {n} "{CODE_TOP}"').read()
+    st = f'××××× 节点 {n} 刷新时间: {getTime(p="%Y_%m_%d-%H_%M_%S")} ×××××'
+    os.popen(f'echo "{st}\n\n{s}\n{st}" > {TOPS_PATH}/top{n}')
 
 
 def ref_node_top(ns=range(14)):
