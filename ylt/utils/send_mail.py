@@ -1,81 +1,132 @@
+'邮件'
 import smtplib
 from email.mime.text import MIMEText
+from email.utils import formataddr
+
 import ylt.utils.ratelimit_json as rj
 from ylt.utils.my_log import save_log2
 
 
-def send_163mail(subject, content, mail_from_usr, mail_from_usr_pw,
-                 mail_to_usr):
-    send_mail(subject, content, mail_from_usr, mail_from_usr_pw, mail_to_usr,
-              "smtp.163.com")
+# pylint: disable=R0913
+def send_163mail(subject, content, mail_from_usr,
+                 mail_from_usr_pw, mail_to_usr):
+    """使用163邮箱发邮件
+
+    Args:
+        subject (_type_): _description_
+        content (_type_): _description_
+        mail_from_usr (_type_): _description_
+        mail_from_usr_pw (_type_): _description_
+        mail_to_usr (_type_): _description_
+    """
+    send_mail(subject, content, mail_from_usr, mail_from_usr_pw,
+              mail_to_usr, smtp_server="smtp.163.com")
 
 
-def send_mails_by_yuh163(subject, content, mail_to_usrs, limit_sec=60):
+def send_mails_by_yuh163(subject, content, mail_to_usrs: list, limit_sec=60):
+    """使用163邮箱发邮件，内置账号
+
+    Args:
+        subject (_type_): _description_
+        content (_type_): _description_
+        mail_to_usrs (_type_): _description_
+        limit_sec (int, optional): _description_. Defaults to 60.
+    """
     user = "***REMOVED***"
     pw = "***REMOVED***"
 
-    for mail_to_usr in mail_to_usrs:
-        send_mail(subject,
-                  content,
-                  user,
-                  pw,
-                  mail_to_usr,
-                  "smtp.163.com",
-                  limit_sec=limit_sec)
+    send_mail(subject,
+              content,
+              user,
+              pw,
+              mail_to_usrs[0:1],
+              mail_to_usrs[1:],
+              "smtp.163.com",
+              limit_sec=limit_sec)
+
+
+def mail_limit(all_recipients, subject, limit_sec=60):
+    """同一个人，60s内不同发送同一主题的邮件
+
+
+    Args:
+        all_recipients (list): 所有收件人
+        subject (_type_): _description_
+        limit_sec (int, optional): _description_. Defaults to 60.
+
+    Returns:
+        _type_: _description_
+    """
+    # 同一组人，60s内不同发送同一主题的邮件
+    rj_key = f'{subject}_{"_".join(all_recipients)}'
+
+    over_limit, span_sec = rj.over_limit(rj_key, limit_sec)
+    if not over_limit:
+        log_str = f"邮件发生太频繁[{span_sec}:.2f/{limit_sec}]s，本次暂停：\n\n{subject}\n\n{all_recipients}"
+        save_log2(log_str, "mail_limit.log")
+        return None
+
+    return rj_key
 
 
 def send_mail(subject,
               content,
               mail_from_usr,
               mail_from_usr_pw,
-              mail_to_usr,
+              receivers: list,
+              cc_recipients=None,
               smtp_server="smtp.qq.com",
               smtp_port=465,
-              limit_sec=60):
+              limit_sec=60,
+              sender_name="集群管理员"):
+    """发邮件
 
-    # 同一个人，60s内不同发送同一主题的邮件
-    rj_key = "%s_%s" % (subject, mail_to_usr)
-    overLimit, span_sec = rj.overLimit(rj_key, limit_sec)
-    if (not overLimit):
-        log_str = "邮件发生太频繁[%.2f/%d]s，本次暂停：\n\n%s\n\n%s" % \
-            (span_sec, limit_sec, subject, mail_to_usr)
-        save_log2(log_str, "mail_limit.log")
+    Args:
+        subject (_type_): _description_
+        content (_type_): _description_
+        mail_from_usr (_type_): 发件人
+        mail_from_usr_pw (_type_): _description_
+        receivers (list): 接收人
+        cc_recipients (list, optional): 抄送给谁. Defaults to None.
+        smtp_server (str, optional): _description_. Defaults to "smtp.qq.com".
+        smtp_port (int, optional): _description_. Defaults to 465.
+        limit_sec (int, optional): _description_. Defaults to 60.
+        sender_name (str, optional): 发件人名字. Defaults to "集群管理员".
 
-        return
+    Returns:
+        _type_: _description_
+    """
+    if cc_recipients is None:
+        cc_recipients = []
 
-    msg_from = mail_from_usr  # 发送方邮箱
-    passwd = mail_from_usr_pw  # 填入发送方邮箱的授权码(填入自己的授权码，相当于邮箱密码)
-    # msg_to = ['****@qq.com','**@163.com','*****@163.com']  # 收件人邮箱
-    msg_to = mail_to_usr  # 收件人邮箱
+    all_recipients = receivers + cc_recipients
+
+    rj_key = mail_limit(all_recipients, subject, limit_sec)
+    if rj_key is None:
+        return True
 
     # 生成一个MIMEText对象（还有一些其它参数）
     msg = MIMEText(content)
-    # 放入邮件主题
     msg['Subject'] = subject
-    # 也可以这样传参
-    # msg['Subject'] = Header(subject, 'utf-8')
-    # 放入发件人
-    msg['From'] = msg_from
-    # 放入收件人
-    # msg['To'] = '***REMOVED***'
-    # msg['To'] = '发给你的邮件啊'
-    print("发送中……")
+    msg['From'] = formataddr((sender_name, mail_from_usr))
+    msg["To"] = ", ".join(receivers)
+    msg["Cc"] = ", ".join(cc_recipients)
+
     try:
         # 通过ssl方式发送，服务器地址，端口
         s = smtplib.SMTP_SSL(smtp_server, smtp_port)
         # 登录到邮箱
-        s.login(msg_from, passwd)
+        s.login(mail_from_usr, mail_from_usr_pw)
         # 发送邮件：发送方，收件方，要发送的消息
-        s.sendmail(msg_from, msg_to, msg.as_string())
+        s.sendmail(mail_from_usr, all_recipients, msg.as_string())
         s.quit()
 
-        rj.saveRecord(rj_key)
+        rj.save_record(rj_key)
 
-        log_str = "成功发送邮件：\n\n%s\n\n%s\n\n%s" % (subject, mail_to_usr, content)
-        save_log2(log_str, "mail.log")
+        save_log2(
+            f"成功发送邮件：\n\n{subject}\n\n{all_recipients}\n\n{content}", "mail.log")
 
         return True
-    except Exception as e:
-        save_log2("邮件发送失败：\n" + subject + "\n" + content, "mail.log")
-        print(e)
+    except Exception as e:  # pylint: disable=w0718
+        save_log2(f"邮件发送失败：\n{subject}\n{content}\n{e}", "mail.log")
     return False

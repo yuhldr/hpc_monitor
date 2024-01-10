@@ -21,8 +21,17 @@ TRS = {
     "none": "",
 }
 
+
 def t(s):
-    for k,v in TRS.items():
+    """汉化
+
+    Args:
+        s (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    for k, v in TRS.items():
         s = s.replace(k, v)
     return s
 
@@ -49,7 +58,8 @@ def st2c(st):
 
 
 def out_sinfo():
-
+    """slurm信息
+    """
     ss = os.popen(f'{CODE_SINFO} -N  -o "{ARG_SINFO}"').read().strip()
     sts = f' {"节点":5}{"分区":5}{"状态":4}{"说明":7}{"内存:空/总":8}{"CPU:空/总":9}{"节点":5}其他'
     print(sts)
@@ -62,7 +72,8 @@ def out_sinfo():
 
         w_state = t(ws[3])
         width = 14
-        padding = (width - len(w_state.encode('utf-8').decode('unicode_escape'))) // 2
+        padding = (
+            width - len(w_state.encode('utf-8').decode('unicode_escape'))) // 2
         if w_state == "暂停提交":
             padding -= 1
         sts += f'{w_state}{padding*" "}'
@@ -78,17 +89,17 @@ def out_sinfo():
         print(sts)
 
 
-
 def out_ns():
-    s = f'\n刷新时间：'
+    """ns状态
+    """
     with open(NS_STATE_PATH, "r", encoding="utf-8") as file:
         for i, line in enumerate(file.read().split("\n")):
             if len(line) == 0:
                 continue
             if i == 0:
-                print(s + line)
+                print(f"\n刷新时间：{line}")
                 continue
-            elif i == 1:
+            if i == 1:
                 print(line)
                 continue
 

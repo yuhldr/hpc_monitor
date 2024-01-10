@@ -1,0 +1,3 @@
+[pylint]
+disable = C0103  # Disable invalid name warning
+; max-line-length = 120

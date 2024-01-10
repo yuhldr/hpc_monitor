@@ -54,9 +54,9 @@ def get_rate_i(rate_now, rates):
 
 
 def main(to_mail_users,
-        title="集群磁盘占用提醒",
-        log_file="disk_home.log",
-        disk_part="/home"):
+         title="集群磁盘占用提醒",
+         log_file="disk_home.log",
+         disk_part="/home"):
     """监控master磁盘情况，主要是home
 
     Args:
@@ -71,13 +71,13 @@ def main(to_mail_users,
 
     # disk_data_home = disk_s.replace("25%", "96%").split()
     disk_data_home = disk_s.split()
-
     rate_now = int(disk_data_home[4].replace("%", ""))
+    save_log2(f"分区：{disk_part}，占用率：{rate_now}", log_file)
 
     ni_rate = get_rate_i(rate_now, warning_disk_home_rates)
-
     if ni_rate < 0:
         return
+
     limits_sec = warning_disk_home_times[ni_rate]
 
     hostname = socket.gethostname()
@@ -96,7 +96,3 @@ def main(to_mail_users,
         content += f"详细使用情况请查看 {DISK_HOME_TODAY}"
 
     send_mails(mail_title, content, to_mail_users, limits_sec)
-
-    s_home = f"分区：{disk_part}，占用率：{rate_now}"
-
-    save_log2(s_home, log_file)

@@ -3,7 +3,9 @@
 """
 查看其他节点 top 信息
 """
-import sys, os
+import os
+import sys
+
 from ylt.nodes import TOPS_PATH
 
 if __name__ == "__main__":

@@ -1,8 +1,9 @@
 '''获取独立服务器信息'''
 import os
+from multiprocessing import Pool
+
 from ylt import CACHE_DIR
 from ylt.utils.my_log import getTime
-from multiprocessing import Pool
 
 NS_STATE_PATH = f'{CACHE_DIR}/ns_state.txt'
 
@@ -62,16 +63,26 @@ def get_mem(ns_name):
 
 
 def cm2s(param):
+    """cpu和内存合并，方便并行
+
+    Args:
+        param (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     cal_type, sn = param
     if cal_type == "cpu":
         cpu_ok, cpu_no = get_cpu(sn)
         return f"{cpu_ok:>3d}/{cpu_ok+cpu_no:<7d}"
-    else:
-        mem_ok, mem_no = get_mem(sn)
-        return f"{mem_ok:3.2f}/{mem_no+mem_ok:3.2f}"
+
+    mem_ok, mem_no = get_mem(sn)
+    return f"{mem_ok:3.2f}/{mem_no+mem_ok:3.2f}"
 
 
 def ref_ns_state():
+    """ns服务器cpu和内存信息刷新
+    """
     server_names = ["ns1", "ns2", "ns3", "ns4"]
     ps = []
     for sn in server_names:
@@ -96,4 +107,3 @@ def ref_ns_state():
 
         with open(NS_STATE_PATH, "w", encoding="utf-8") as file:
             file.write(msg+"\n")
-            print(msg)

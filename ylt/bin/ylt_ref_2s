@@ -4,12 +4,11 @@
 * * * * * source /usr/local/anaconda3/bin/activate gr && ylt_ref_2s
 """
 
-from ylt.nodes import ref_node_top
-from ylt.ns_state import ref_ns_state
 import threading
 import time
 
-
+from ylt.nodes import ref_node_top
+from ylt.ns_state import ref_ns_state
 
 for i in range(29):
     # 获取每个节点的top信息

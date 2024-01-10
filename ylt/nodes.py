@@ -6,7 +6,7 @@ from multiprocessing import Pool
 
 from ylt import CACHE_DIR
 from ylt.utils.my_file import check_dir
-from ylt.utils.my_log import save_log2, getTime
+from ylt.utils.my_log import getTime, save_log2
 from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 
 CODE_SINFO_S = "/usr/bin/sinfo-s"
@@ -19,7 +19,12 @@ TOPS_PATH = f"{CACHE_DIR}/tops/"
 check_dir(TOPS_PATH)
 
 
-def get_top(node_n:int):
+def get_top(node_n: int):
+    """获取某个节点top信息
+
+    Args:
+        node_n (int): _description_
+    """
     n = f"node{node_n+1}"
     s = os.popen(f'ssh {n} "{CODE_TOP}"').read()
     st = f'××××× 节点 {n} 刷新时间: {getTime(p="%Y_%m_%d-%H_%M_%S")} ×××××'

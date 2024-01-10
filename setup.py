@@ -4,14 +4,14 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-scripts=[
+scripts = [
     "ylt/bin/sinfo-s",
     "ylt/bin/nodes",
     "ylt/bin/topn",
     "ylt/bin/ylt",
     "ylt/bin/ylt_ref_disk",
     "ylt/bin/ylt_ref_2s",
-    ]
+]
 
 setuptools.setup(name='ylt',
                  version='0.0.3',
