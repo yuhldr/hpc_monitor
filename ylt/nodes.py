@@ -2,6 +2,7 @@
 node是否在线，top情况
 '''
 import os
+from multiprocessing import Pool
 
 from ylt import CACHE_DIR
 from ylt.utils.my_file import check_dir
@@ -18,16 +19,20 @@ TOPS_PATH = f"{CACHE_DIR}/tops/"
 check_dir(TOPS_PATH)
 
 
+def get_top(node_n:int):
+    s = os.popen(f'ssh node{node_n+1} "{CODE_TOP}"').read()
+    st = f'××××× 节点 node1 刷新时间: {getTime(p="%Y_%m_%d-%H_%M_%S")} ×××××'
+    os.popen(f'echo "{st}\n\n{s}\n{st}" > {TOPS_PATH}/topnode{node_n+1}')
+
+
 def ref_node_top(ns=range(14)):
     """获取每个节点的top信息
 
     Args:
         n (int, optional): _description_. Defaults to 14.
     """
-    for i in ns:
-        s = os.popen(f'ssh node{i+1} "{CODE_TOP}"').read()
-        st = f'××××× 节点 node1 刷新时间: {getTime(p="%Y_%m_%d-%H_%M_%S")} ×××××'
-        os.popen(f'echo "{st}\n\n{s}\n{st}" > {TOPS_PATH}/topnode{i+1}')
+    with Pool(len(ns)) as p:
+        p.map(get_top, ns)
 
 
 def node_ok(lines):
