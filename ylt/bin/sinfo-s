@@ -39,7 +39,7 @@ def out_sinfo():
             print(line)
             continue
 
-        print(f"\033[{st2c(line.split()[3])}m{line.strip()}\033[0m")
+        print(f"\033[{st2c(line.split()[2])}m{line.strip()}\033[0m")
 
 
 def out_ns():

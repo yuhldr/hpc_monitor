@@ -2,6 +2,7 @@
 node是否在线，top情况
 '''
 import os
+import re
 from multiprocessing import Pool
 
 from ylt import CACHE_DIR
@@ -55,13 +56,15 @@ def re_sinfo():
     """
 
     ss = os.popen(f'{CODE_SINFO} -N -O "{ARG_SINFO}"').read().strip()
-    sts = f' {"节点":5}{"分区":5}{"状态":4}{"说明":7}{"内存:空/总":8}{"CPU:空/总":9}{"节点":5}其他'
+    sts = f' {"节点":5}{"分区":5}{"说明":7}{"内存:空/总":8}{"CPU:空/总":9}{"节点":5}其他'
     for line in ss.strip().split("\n")[1:]:
         if len(line) == 0:
             continue
-        ws = line.split()
+        print(line)
+        ws = re.split(r'\s{2,}', line)
+        print(ws)
 
-        sts += f"\n{ws[0]:8}{ws[1]:5}{t(ws[2]):^6}"
+        sts += f"\n{ws[0]:8}{ws[1]:7}"
 
         w_state = t(ws[3])
         width = 14
