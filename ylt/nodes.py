@@ -10,6 +10,8 @@ from ylt.utils.my_log import getTime, save_log2
 from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 
 CODE_SINFO_S = "/usr/bin/sinfo-s"
+CODE_SINFO = "/usr/local/slurm/bin/sinfo"
+ARG_SINFO = "nodelist,partition,available,statelong,memory,allocmem,freemem,cpusstate,Reason"
 # 系统进程不显示
 TOP_NO_USER = "root|rpc|ntp|dbus|polkitd|postfix|libstor|systemd|syslog|munge"
 CODE_TOP = f"top -b -n 1 -w 512 | grep -vE '{TOP_NO_USER}'"
@@ -17,6 +19,67 @@ CODE_TOP = f"top -b -n 1 -w 512 | grep -vE '{TOP_NO_USER}'"
 
 TOPS_PATH = f"{CACHE_DIR}/tops/"
 check_dir(TOPS_PATH)
+
+
+TRS = {
+    "up": "在线",
+    "down": "掉线",
+    "allocated": "繁忙",
+    "drng": "暂停提交",
+    "drain": "暂停提交",
+    "mixed": "有空闲",
+    "idle": "空闲",
+    "none": "",
+}
+
+
+def t(s):
+    """汉化
+
+    Args:
+        s (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    for k, v in TRS.items():
+        s = s.replace(k, v)
+    return s
+
+
+def re_sinfo():
+    """获取所有节点的slurm状态
+
+    Returns:
+        _type_: _description_
+    """
+
+    ss = os.popen(f'{CODE_SINFO} -N -O "{ARG_SINFO}"').read().strip()
+    sts = f' {"节点":5}{"分区":5}{"状态":4}{"说明":7}{"内存:空/总":8}{"CPU:空/总":9}{"节点":5}其他'
+    for line in ss.strip().split("\n")[1:]:
+        if len(line) == 0:
+            continue
+        ws = line.split()
+
+        sts += f"\n{ws[0]:8}{ws[1]:5}{t(ws[2]):^6}"
+
+        w_state = t(ws[3])
+        width = 14
+        padding = (
+            width - len(w_state.encode('utf-8').decode('unicode_escape'))) // 2
+        if w_state == "暂停提交":
+            padding -= 1
+        sts += f'{w_state}{padding*" "}'
+
+        sts += f'{f"{(int(ws[4])-int(ws[5]))/1024:>4.1f}/{int(ws[4])/1024:<4.0f}":^11}'
+
+        cs = ws[7].split("/")
+        sts += f'{f"{cs[1]:>4}/{cs[3]:<5}":^12}'
+
+        sts += f"{ws[0]:8}"
+        sts += t(ws[8])
+
+    return sts
 
 
 def get_top(node_n: int):

@@ -3,38 +3,9 @@
 """
 查看其他节点 top 信息
 """
-import os
 
+from ylt.nodes import re_sinfo
 from ylt.ns_state import NS_STATE_PATH
-from ylt.utils.my_log import getTime
-
-CODE_SINFO = "/usr/local/slurm/bin/sinfo"
-ARG_SINFO = "%.6N %.9P %.5a %.6t  %.8e/%m  %.13C   %.E"
-
-TRS = {
-    "up": "在线",
-    "down": "掉线",
-    "alloc": "繁忙",
-    "drng": "暂停提交",
-    "drain": "暂停提交",
-    "mix": "有空闲",
-    "idle": "空闲",
-    "none": "",
-}
-
-
-def t(s):
-    """汉化
-
-    Args:
-        s (_type_): _description_
-
-    Returns:
-        _type_: _description_
-    """
-    for k, v in TRS.items():
-        s = s.replace(k, v)
-    return s
 
 
 def st2c(st):
@@ -61,33 +32,14 @@ def st2c(st):
 def out_sinfo():
     """slurm信息
     """
-    ss = os.popen(f'{CODE_SINFO} -N  -o "{ARG_SINFO}"').read().strip()
-    sts = f' {"节点":5}{"分区":5}{"状态":4}{"说明":7}{"内存:空/总":8}{"CPU:空/总":9}{"节点":5}其他'
-    print(sts)
-    for line in ss.split("\n")[1:]:
+    for i, line in enumerate(re_sinfo().split("\n")):
         if len(line) == 0:
             continue
-        ws = line.split()
+        if i == 0:
+            print(line)
+            continue
 
-        sts = f"\033[{st2c(t(ws[3]))}m{ws[0]:8}{ws[1]:5}{t(ws[2]):^6}"
-
-        w_state = t(ws[3])
-        width = 14
-        padding = (
-            width - len(w_state.encode('utf-8').decode('unicode_escape'))) // 2
-        if w_state == "暂停提交":
-            padding -= 1
-        sts += f'{w_state}{padding*" "}'
-
-        ms = ws[4].split("/")
-        sts += f'{f"{int(ms[0])/1024:>4.0f}/{int(ms[1])/1024:<4.0f}":^11}'
-
-        cs = ws[5].split("/")
-        sts += f'{f"{cs[1]:>4}/{cs[3]:<5}":^12}'
-
-        sts += f"{ws[0]:8}"
-        sts += f"{t(ws[6])}\033[0m"
-        print(sts)
+        print(f"\033[{st2c(line.split()[3])}m{line.strip()}\033[0m")
 
 
 def out_ns():
@@ -108,6 +60,5 @@ def out_ns():
 
 
 if __name__ == "__main__":
-    print(f'当前：{getTime(p="%Y/%m/%d %H:%M:%S")}')
     out_sinfo()
     out_ns()
