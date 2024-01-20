@@ -56,13 +56,11 @@ def re_sinfo():
     """
 
     ss = os.popen(f'{CODE_SINFO} -N -O "{ARG_SINFO}"').read().strip()
-    sts = f' {"节点":5}{"分区":5}{"说明":7}{"内存:空/总":8}{"CPU:空/总":9}{"节点":5}其他'
+    sts = f' {"节点":5}{"分区":5}{"说明":7}{"内存:空/总":8}{"CPU:空/总":9}其他'
     for line in ss.strip().split("\n")[1:]:
         if len(line) == 0:
             continue
-        print(line)
         ws = re.split(r'\s{2,}', line)
-        print(ws)
 
         sts += f"\n{ws[0]:8}{ws[1]:7}"
 
@@ -79,7 +77,6 @@ def re_sinfo():
         cs = ws[7].split("/")
         sts += f'{f"{cs[1]:>4}/{cs[3]:<5}":^12}'
 
-        sts += f"{ws[0]:8}"
         sts += t(ws[8])
 
     return sts
