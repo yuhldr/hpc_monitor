@@ -12,6 +12,7 @@ from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 
 CODE_SINFO_S = "/usr/bin/sinfo-s"
 CODE_SINFO = "/usr/local/slurm/bin/sinfo"
+CODE_SINFO_OK = f"{CODE_SINFO} -N -O cpusstate"
 ARG_SINFO = "nodelist,partition,available,statelong,memory,allocmem,freemem,cpusstate,Reason"
 # 系统进程不显示
 TOP_NO_USER = "root|rpc|ntp|dbus|polkitd|postfix|libstor|systemd|syslog|munge"
@@ -113,9 +114,7 @@ def node_ok(lines):
     Returns:
         _type_: _description_
     """
-    sinfo_s = lines[5].split("/")
-    cpus = int(sinfo_s[0]) + int(sinfo_s[1])
-    return cpus == int(sinfo_s[3])
+    return lines.split()[2] != "掉线"
 
 
 def ns_ok(lines):
@@ -127,7 +126,7 @@ def ns_ok(lines):
     Returns:
         _type_: _description_
     """
-    return lines[3] != 0
+    return lines.split()[1] != "掉线"
 
 
 def get_nodes():

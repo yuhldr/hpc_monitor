@@ -98,7 +98,7 @@ def ref_ns_state():
 
             s = "空闲"
             if int(cs[1].strip()) == 0:
-                s = "错误"
+                s = "掉线"
             elif int(cs[0]) == 0:
                 s = "繁忙"
             elif int(cs[0]) != int(cs[1]):
