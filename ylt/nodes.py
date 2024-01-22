@@ -13,7 +13,7 @@ from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 CODE_SINFO_S = "/usr/bin/sinfo-s"
 CODE_SINFO = "/usr/local/slurm/bin/sinfo"
 CODE_SINFO_OK = f"{CODE_SINFO} -N -O cpusstate"
-ARG_SINFO = "nodelist,partition,available,statelong,memory,allocmem,freemem,cpusstate,Reason"
+ARG_SINFO = "nodelist,partition,available,statelong,memory,allocmem,freemem,cpusstate,Reason:.100"
 # 系统进程不显示
 TOP_NO_USER = "root|rpc|ntp|dbus|polkitd|postfix|libstor|systemd|syslog|munge"
 CODE_TOP = f"top -b -n 1 -w 512 | grep -vE '{TOP_NO_USER}'"
@@ -27,11 +27,12 @@ TRS = {
     "up": "在线",
     "down": "掉线",
     "allocated": "繁忙",
-    "drng": "暂停提交",
-    "drain": "暂停提交",
+    "draining": "暂停",
+    "drained": "暂停",
     "mixed": "有空闲",
     "idle": "空闲",
     "none": "",
+    "*": "",
 }
 
 
@@ -56,7 +57,9 @@ def re_sinfo():
         _type_: _description_
     """
 
-    ss = os.popen(f'{CODE_SINFO} -N -O "{ARG_SINFO}"').read().strip()
+    po = os.popen(f'{CODE_SINFO} -N -O "{ARG_SINFO}"')
+    ss = po.buffer.read().decode('utf-8', errors='ignore').strip()
+
     sts = f' {"节点":5}{"分区":5}{"说明":7}{"内存:空/总":8}{"CPU:空/总":9}其他'
     for line in ss.strip().split("\n")[1:]:
         if len(line) == 0:
