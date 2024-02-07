@@ -117,7 +117,7 @@ def node_ok(lines):
     Returns:
         _type_: _description_
     """
-    return lines.split()[2] != "掉线"
+    return lines[2] != "掉线"
 
 
 def ns_ok(lines):
@@ -129,7 +129,7 @@ def ns_ok(lines):
     Returns:
         _type_: _description_
     """
-    return lines.split()[1] != "掉线"
+    return lines[1] != "掉线"
 
 
 def get_nodes():
@@ -141,8 +141,7 @@ def get_nodes():
     split_ = " "
     error_str = ""
     error_title = ""
-    str_res = os.popen(CODE_SINFO_S).read()
-    for line in str_res.strip().split("\n"):
+    for line in re_sinfo().strip().split("\n"):
         lines = line.split()
         if len(lines) == 0:
             continue
@@ -179,6 +178,6 @@ def main(to_mail_users,
 
     if len(error_str) > 0:
         title = title % error_title
-        notice_msg = f"{error_str}\n\n其他\n{os.popen(CODE_SINFO_S).read()}"
+        notice_msg = f"{error_str}\n\n其他\n{re_sinfo()}"
         save_log2(f"{title}\n{notice_msg}", log_file)
         send_mails(title, notice_msg, to_mail_users, limits_sec_mail_node)
