@@ -18,8 +18,8 @@ DONGJIAQI = "***REMOVED***"
 ZHAOBAOTONG = "***REMOVED***"
 
 # 监控master温度
-# to_mail_users_temp = [YUH, ZHAOBAOTONG]
-to_mail_users_temp = [YUH]
+to_mail_users_temp = [YUH, ZHAOBAOTONG]
+# to_mail_users_temp = [YUH]
 temps.main(to_mail_users_temp)
 
 # 监控master磁盘
