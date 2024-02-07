@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICPCS集群</title>
+    <style>
+       table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 3px solid #707070; /* 深灰色边框 */
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        th, td {
+            border-left: 1px solid #dddddd;
+            border-right: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            border-top: 1px solid #dddddd;
+        }
+        tr:first-child th:first-child {
+            border-top-left-radius: 10px;
+        }
+        tr:first-child th:last-child {
+            border-top-right-radius: 10px;
+        }
+        tr:last-child td:first-child {
+            border-bottom-left-radius: 10px;
+        }
+        tr:last-child td:last-child {
+            border-bottom-right-radius: 10px;
+        }
+
+        td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        .掉线 {
+            background-color: #FA7070;
+            /* 掉线 - 红色 */
+        }
+
+        .暂停 {
+            background-color: #EE7214;
+            /* 掉线 - 红色 */
+        }
+
+        .空闲 {
+            background-color: #65B741;
+            /* 空闲 - 绿色 */
+        }
+
+        .有空闲 {
+            background-color: #b2f89a;
+            /* 空闲 - 绿色 */
+        }
+
+        .繁忙 {
+            background-color: #FFB534;
+            /* 繁忙 - 棕色 */
+        }
+    </style>
+</head>
+
+<body>
+    <p>刷新时间: {{ now_node }}</p>
+    <table>
+        <tr>
+            <th>节点</th>
+            <th>分区</th>
+            <th>说明</th>
+            <th>内存:空/总</th>
+            <th>CPU:空/总</th>
+            <th>其他</th>
+        </tr>
+        {% for node in node_list %}
+        <tr class="{{ node.status }}">
+            <td>{{ node.name }}</td>
+            <td>{{ node.partition }}</td>
+            <td>{{ node.status }}</td>
+            <td>{{ node.memory }}</td>
+            <td>{{ node.cpu }}</td>
+            <td>{{ node.other }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p>刷新时间: {{ now_ns }}</p>
+    <table>
+        <tr>
+            <th>节点</th>
+            <th>说明</th>
+            <th>内存:空/总</th>
+            <th>CPU:空/总</th>
+        </tr>
+        {% for ns in ns_list %}
+        <tr class="{{ ns.status }}">
+            <td>{{ ns.name }}</td>
+            <td>{{ ns.status }}</td>
+            <td>{{ ns.memory }}</td>
+            <td>{{ ns.cpu }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>

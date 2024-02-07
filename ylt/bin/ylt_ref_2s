@@ -7,6 +7,7 @@
 import threading
 import time
 
+from ylt.html import ref_sinfo_s
 from ylt.nodes import ref_node_top
 from ylt.ns_state import ref_ns_state
 
@@ -16,5 +17,8 @@ for i in range(29):
 
     # ns独立服务器情况
     threading.Thread(target=ref_ns_state).start()
+
+    # 刷新网页sinfo-s
+    threading.Thread(target=ref_sinfo_s).start()
 
     time.sleep(2)

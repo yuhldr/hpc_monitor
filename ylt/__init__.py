@@ -10,3 +10,7 @@ CACHE_DIR = THIS_PATH + "/cache/"
 # CACHE_DIR = os.path.join(THIS_PATH, 'ylt')
 
 check_dir(CACHE_DIR)
+
+
+this_dir, this_filename = os.path.split(__file__)
+path_templates = os.path.join(this_dir, "./data/templates")
