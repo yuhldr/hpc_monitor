@@ -10,6 +10,7 @@ from ylt import disk, nodes, temps
 LIUXIAONAN = "***REMOVED***"
 # ***REMOVED***
 YUH = "***REMOVED***"
+YUH2 = "***REMOVED***"
 # ***REMOVED***
 WANGYISEN = "***REMOVED***"
 # ***REMOVED***
@@ -18,14 +19,14 @@ DONGJIAQI = "***REMOVED***"
 ZHAOBAOTONG = "***REMOVED***"
 
 # 监控master温度
-to_mail_users_temp = [YUH, ZHAOBAOTONG]
+to_mail_users_temp = [YUH, YUH2, ZHAOBAOTONG]
 # to_mail_users_temp = [YUH]
 temps.main(to_mail_users_temp)
 
 # 监控master磁盘
-to_mail_users_disk = [YUH, WANGYISEN, DONGJIAQI, LIUXIAONAN]
+to_mail_users_disk = [YUH, YUH2, WANGYISEN, DONGJIAQI, LIUXIAONAN]
 disk.main(to_mail_users_disk)
 
 # 监控节点在线状态
-to_mail_users_nodes = [YUH]
+to_mail_users_nodes = [YUH, YUH2]
 nodes.main(to_mail_users_nodes)
