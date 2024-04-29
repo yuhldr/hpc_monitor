@@ -4,9 +4,9 @@
 
 ```bash
 # 创建单独环境
-conda create --name gr python=3.11
+sudo /usr/local/anaconda3/bin/conda create --prefix /usr/local/anaconda3/envs/gr python=3.11
 # 权限问题
-chown -R gitlab-runner:http /usr/local/anaconda3/envs/gr
+chown -R gitlab-runner:root /usr/local/anaconda3/envs/gr
 ```
 
 
@@ -15,7 +15,11 @@ chown -R gitlab-runner:http /usr/local/anaconda3/envs/gr
 详见 [ylt/bin/ylt](ylt/bin/ylt)
 
 ```bash
-* * * * * source /usr/local/anaconda3/bin/activate gr && ylt
+mkdir -p /opt/ylt//cache/
+```
+
+```bash
+* * * * * source /usr/local/anaconda3/bin/activate /usr/local/anaconda3/envs/gr && ylt
 ```
 
 额外设置
@@ -25,7 +29,7 @@ chown -R gitlab-runner:http /usr/local/anaconda3/envs/gr
 统计太慢，每天凌晨自动统计用户磁盘使用情况
 
 ```bash
-0 02 * * * source /usr/local/anaconda3/bin/activate gr && ylt_ref_disk
+0 02 * * * source /usr/local/anaconda3/bin/activate /usr/local/anaconda3/envs/gr && ylt_ref_disk
 ```
 
 ## 软连接
@@ -33,6 +37,6 @@ chown -R gitlab-runner:http /usr/local/anaconda3/envs/gr
 让所有人可以使用
 
 ```bash
-ln -s /usr/local/anaconda3/envs/gr/bin/topn /usr/bin
-ln -s /usr/local/anaconda3/envs/gr/bin/sinfo-s /usr/bin
+ln -s /usr/local/anaconda3/envs/gr/bin/topn /usr/local/bin
+ln -s /usr/local/anaconda3/envs/gr/bin/sinfo-s /usr/local/bin
 ```
