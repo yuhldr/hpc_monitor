@@ -62,7 +62,7 @@ def sinfo2html(text_node="", text_ns="", path="./index.html"):
         f.write(html_output)
 
 
-def ref_sinfo_s(path="/home/data/www/other/test/sinfo-s/index.html"):
+def ref_sinfo_s(path="/data/www/other/test/sinfo-s/index.html"):
     """直接在网页查看
 
     Args:

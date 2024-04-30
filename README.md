@@ -7,6 +7,7 @@
 sudo /usr/local/anaconda3/bin/conda create --prefix /usr/local/anaconda3/envs/gr python=3.11
 # 权限问题
 chown -R gitlab-runner:root /usr/local/anaconda3/envs/gr
+conda install jinja2
 ```
 
 
