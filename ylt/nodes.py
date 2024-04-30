@@ -11,7 +11,7 @@ from ylt.utils.my_log import getTime, save_log2
 from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 
 CODE_SINFO_S = "/usr/bin/sinfo-s"
-CODE_SINFO = "/usr/local/slurm/bin/sinfo"
+CODE_SINFO = "/usr/bin/sinfo"
 CODE_SINFO_OK = f"{CODE_SINFO} -N -O cpusstate"
 ARG_SINFO = "nodelist,partition,available,statelong,memory,allocmem,freemem,cpusstate,Reason:.100"
 # 系统进程不显示
