@@ -3,9 +3,9 @@
 for ((i=$1;i<=$2;i++));
 do
     echo node$i
-    $3 n$i $4
+    $3 node$i$4
     echo "------"
     echo ""
 done
 
-# ./nodes 1 8 "ssh" ""df -h"
+# ./nodes 1 8 "ssh" " df -h"
