@@ -4,7 +4,7 @@
 SHELL=/bin/zsh
 PATH=/usr/bin:/bin:/usr/local/anaconda3/bin
 
-* * * * * ource activate gr && ylt_ref_2s
+* * * * * source activate gr && ylt_ref_2s
 """
 
 import time
@@ -24,7 +24,7 @@ def worker_function(ref_func):
     ref_func()
 
 
-with ThreadPoolExecutor(max_workers=20) as executor:
+with ThreadPoolExecutor(max_workers=10) as executor:
     for _i in range(29):
         # 获取每个节点的top信息
         executor.submit(worker_function, ref_node_top)
