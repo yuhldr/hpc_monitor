@@ -13,6 +13,14 @@ conda install jinja2
 
 ## 其他
 
+crontab
+
+```bash
+SHELL=/bin/zsh
+PATH=/usr/bin:/bin:/usr/local/anaconda3/bin
+```
+
+
 详见 [ylt/bin/ylt](ylt/bin/ylt)
 
 ```bash
@@ -20,7 +28,8 @@ mkdir -p /opt/ylt//cache/
 ```
 
 ```bash
-* * * * * source /usr/local/anaconda3/bin/activate /usr/local/anaconda3/envs/gr && ylt
+* * * * * source activate gr && ylt
+* * * * * source activate gr && ylt_ref_2s
 ```
 
 额外设置
@@ -30,7 +39,7 @@ mkdir -p /opt/ylt//cache/
 统计太慢，每天凌晨自动统计用户磁盘使用情况
 
 ```bash
-0 02 * * * source /usr/local/anaconda3/bin/activate /usr/local/anaconda3/envs/gr && ylt_ref_disk
+0 02 * * * source activate gr && ylt_ref_disk
 ```
 
 ## 软连接

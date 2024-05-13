@@ -1,24 +1,38 @@
 #! /usr/bin/env python
 
 """crontab只能每隔1分钟，这里需要每2s刷新一下
-* * * * * source /usr/local/anaconda3/bin/activate gr && ylt_ref_2s
+SHELL=/bin/zsh
+PATH=/usr/bin:/bin:/usr/local/anaconda3/bin
+
+* * * * * ource activate gr && ylt_ref_2s
 """
 
-import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 from ylt.html import ref_sinfo_s
 from ylt.nodes import ref_node_top
 from ylt.ns_state import ref_ns_state
 
-for i in range(29):
-    # 获取每个节点的top信息
-    threading.Thread(target=ref_node_top).start()
 
-    # ns独立服务器情况
-    threading.Thread(target=ref_ns_state).start()
+def worker_function(ref_func):
+    """函数回掉
 
-    # 刷新网页sinfo-s
-    threading.Thread(target=ref_sinfo_s).start()
+    Args:
+        ref_func (_type_): _description_
+    """
+    ref_func()
 
-    time.sleep(2)
+
+with ThreadPoolExecutor(max_workers=20) as executor:
+    for _i in range(29):
+        # 获取每个节点的top信息
+        executor.submit(worker_function, ref_node_top)
+
+        # ns独立服务器情况
+        executor.submit(worker_function, ref_ns_state)
+
+        # 刷新网页sinfo-s
+        executor.submit(worker_function, ref_sinfo_s)
+
+        time.sleep(2)
