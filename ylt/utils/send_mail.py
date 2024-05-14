@@ -32,7 +32,9 @@ def send_mails_by_yuh163(subject, content, mail_to_usrs: list, limit_sec=60):
         mail_to_usrs (_type_): _description_
         limit_sec (int, optional): _description_. Defaults to 60.
     """
+    # 发件人邮箱用户名
     user = "***REMOVED***"
+    # 发件人邮箱密码，很多邮箱是单独设置的密钥，而不是登录密码，比如QQ邮箱、163邮箱
     pw = "***REMOVED***"
 
     send_mail(subject,
@@ -85,7 +87,7 @@ def send_mail(subject,
         subject (_type_): _description_
         content (_type_): _description_
         mail_from_usr (_type_): 发件人
-        mail_from_usr_pw (_type_): _description_
+        mail_from_usr_pw (_type_): 发件人密码，很多邮箱是单独设置的密钥，而不是登录密码
         receivers (list): 接收人
         cc_recipients (list, optional): 抄送给谁. Defaults to None.
         smtp_server (str, optional): _description_. Defaults to "smtp.qq.com".

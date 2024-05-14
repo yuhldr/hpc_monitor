@@ -92,8 +92,8 @@ def ref_ns_state():
     with Pool(len(server_names)*2) as p:
         dd = p.map(cm2s, ps)
 
-        msg = f'{getTime(p="%Y/%m/%d %H:%M:%S")
-                 }\n{"小服务器":6}{"说明":5}{"CPU:空/总":10}{"内存:空/总"}'
+        msg = f'{getTime(p="%Y/%m/%d %H:%M:%S")}'
+        msg = f'\n{"小服务器":6}{"说明":5}{"CPU:空/总":10}{"内存:空/总"}'
         for i, sn in enumerate(server_names):
             cs = dd[i*2].split("/")
 

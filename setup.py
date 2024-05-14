@@ -14,9 +14,9 @@ scripts = [
 ]
 
 setuptools.setup(name='ylt',
-                 version='0.0.3',
+                 version='0.0.4',
                  author="yuhldr",
-                 author_email="***REMOVED***",
+                 author_email="yuhldr@qq.com",
                  long_description=long_description,
                  long_description_content_type="text/markdown",
                  py_modules=["ylt"],

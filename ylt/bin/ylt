@@ -6,25 +6,25 @@
 
 from ylt import disk, nodes, temps
 
-# ***REMOVED***
+# 一些收件人的邮箱，放置一个人出问题不知道
 LIUXIAONAN = "***REMOVED***"
-# ***REMOVED***
+# 用户备注名
 YUH = "***REMOVED***"
 YUH2 = "***REMOVED***"
 # ***REMOVED***
-WANGYISEN = "***REMOVED***"
+USER1 = "***REMOVED***"
 # ***REMOVED***
-DONGJIAQI = "***REMOVED***"
+USER2 = "***REMOVED***"
 # ***REMOVED***
-ZHAOBAOTONG = "***REMOVED***"
+USER3 = "***REMOVED***"
 
 # 监控master温度
-to_mail_users_temp = [YUH, YUH2, ZHAOBAOTONG]
+to_mail_users_temp = [YUH, YUH2, USER3]
 # to_mail_users_temp = [YUH]
 temps.main(to_mail_users_temp)
 
 # 监控master磁盘
-to_mail_users_disk = [YUH, YUH2, WANGYISEN, DONGJIAQI, LIUXIAONAN]
+to_mail_users_disk = [YUH, YUH2, USER1, USER2, LIUXIAONAN]
 disk.main(to_mail_users_disk)
 
 # 监控节点在线状态
