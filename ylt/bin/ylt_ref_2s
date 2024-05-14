@@ -4,6 +4,7 @@
 SHELL=/bin/zsh
 PATH=/usr/bin:/bin:/usr/local/anaconda3/bin
 
+# 可选择及时关闭，放置内存泄漏，不能关闭太早
 * * * * * source activate gr && ylt_ref_2s
 """
 

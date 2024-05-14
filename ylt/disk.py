@@ -6,6 +6,7 @@ import subprocess
 from ylt import CACHE_DIR
 from ylt.utils.my_file import check_dir
 from ylt.utils.my_log import getTime, save_log2
+from ylt.utils.run_code import run
 from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 
 DISK_PATH = f"{CACHE_DIR}/disk/"
@@ -67,7 +68,7 @@ def main(to_mail_users,
     """
 
     # 80, 90, 95, 98
-    disk_s = str(os.popen(f'df -h | grep -w "{disk_part}"').readline())
+    disk_s = run(f'df -h | grep -w "{disk_part}"')
 
     # disk_data_home = disk_s.replace("25%", "96%").split()
     disk_data_home = disk_s.split()

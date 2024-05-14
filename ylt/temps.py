@@ -8,6 +8,7 @@ import psutil
 from ylt import CACHE_DIR
 from ylt.utils import read_json_file, write_json_file
 from ylt.utils.my_log import save_log2
+from ylt.utils.run_code import run
 from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 
 TEMP_PATH = f'{CACHE_DIR}/temp.json'
@@ -120,6 +121,6 @@ def main(to_mail_users,
         for e in data[0:20]:
             content += f'{e[K_DATE]:<23}{e[K_TEMP]:<8.2f}{e[K_CPU]:<8.2f}\n'
         content += f"\n\n{flag}  当前top  {flag}\n\n"
-        content += os.popen('top -bi -n 1 -d 0.02').read()
+        content += run('top -bi -n 1 -d 0.02')
 
         send_mails(title, content, to_mail_users, limits_sec_mail_temp)

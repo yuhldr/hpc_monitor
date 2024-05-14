@@ -8,6 +8,7 @@ from multiprocessing import Pool
 from ylt import CACHE_DIR
 from ylt.utils.my_file import check_dir
 from ylt.utils.my_log import getTime, save_log2
+from ylt.utils.run_code import run
 from ylt.utils.send_mail import send_mails_by_yuh163 as send_mails
 
 CODE_SINFO_S = "/usr/bin/sinfo-s"
@@ -57,8 +58,7 @@ def re_sinfo():
         _type_: _description_
     """
 
-    po = os.popen(f'{CODE_SINFO} -N -O "{ARG_SINFO}"')
-    ss = po.buffer.read().decode('utf-8', errors='ignore').strip()
+    ss = run(f'{CODE_SINFO} -N -O "{ARG_SINFO}"')
 
     sts = f' {"节点":5}{"分区":5}{"说明":7}{"内存:空/总":8}{"CPU:空/总":9}其他'
     for line in ss.strip().split("\n")[1:]:
@@ -93,9 +93,9 @@ def get_top(node_n: int):
         node_n (int): _description_
     """
     n = f"node{node_n+1}"
-    s = os.popen(f'ssh {n} "{CODE_TOP}"').read()
+    s = run(f'ssh {n} "{CODE_TOP}"')
     st = f'××××× 节点 {n} 刷新时间: {getTime(p="%Y_%m_%d-%H_%M_%S")} ×××××'
-    os.popen(f'echo "{st}\n\n{s}\n{st}" > {TOPS_PATH}/top{n}')
+    run(f'echo "{st}\n\n{s}\n{st}" > {TOPS_PATH}/top{n}')
 
 
 def ref_node_top(ns=range(14)):
@@ -181,3 +181,12 @@ def main(to_mail_users,
         notice_msg = f"{error_str}\n\n其他\n{re_sinfo()}"
         save_log2(f"{title}\n{notice_msg}", log_file)
         send_mails(title, notice_msg, to_mail_users, limits_sec_mail_node)
+
+
+if __name__ == "__main__":
+    print("test")
+    n = "phy3008_ldr"
+
+    s = run(f'ssh {n} "{CODE_TOP}"')
+    st = f'××××× 节点 {n} 刷新时间: {getTime(p="%Y_%m_%d-%H_%M_%S")} ×××××'
+    run(f'echo "{st}\n\n{s}\n{st}" > {TOPS_PATH}/top{n}')

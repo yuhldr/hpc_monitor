@@ -1,9 +1,9 @@
 '''获取独立服务器信息'''
-import os
 from multiprocessing import Pool
 
 from ylt import CACHE_DIR
 from ylt.utils.my_log import getTime
+from ylt.utils.run_code import run
 
 NS_STATE_PATH = f'{CACHE_DIR}/ns_state.txt'
 
@@ -22,7 +22,7 @@ def get_cpu(ns_name, cpu_ok_rate=20):
     cpu_ok = 0
     cpu_no = 0
     ssh_code = f'ssh {ns_name} "sar -P ALL 1 2"'
-    cpu_msg = os.popen(ssh_code).readlines()
+    cpu_msg = run(ssh_code).split("\n")
     for line in cpu_msg:
         lines = line.strip().split()
         if len(lines) == 0 or lines[0] != "Average:":
@@ -51,7 +51,7 @@ def get_mem(ns_name):
     mem_ok = 0
     mem_no = 0
     ssh_code = f'ssh {ns_name} "sar -r 3 2"'
-    mem_msg = os.popen(ssh_code).readlines()
+    mem_msg = run(ssh_code).split()
     for line in mem_msg:
         lines = line.strip().split()
 
@@ -92,7 +92,8 @@ def ref_ns_state():
     with Pool(len(server_names)*2) as p:
         dd = p.map(cm2s, ps)
 
-        msg = f'{getTime(p="%Y/%m/%d %H:%M:%S")}\n{"小服务器":6}{"说明":5}{"CPU:空/总":10}{"内存:空/总"}'
+        msg = f'{getTime(p="%Y/%m/%d %H:%M:%S")
+                 }\n{"小服务器":6}{"说明":5}{"CPU:空/总":10}{"内存:空/总"}'
         for i, sn in enumerate(server_names):
             cs = dd[i*2].split("/")
 
@@ -107,3 +108,8 @@ def ref_ns_state():
 
         with open(NS_STATE_PATH, "w", encoding="utf-8") as file:
             file.write(msg+"\n")
+
+
+if __name__ == "__main__":
+    print("test")
+    ref_ns_state()
