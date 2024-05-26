@@ -67,7 +67,7 @@ def cpu_exceeded_threshold(data, threshold=15, time_period=20):
     """最近20分钟内，是否有cpu利用率超过15%
 
     Args:
-        data (_type_): _description_
+        data (list): 最新在前[{"date":"2024-05-26 16:50:02","cpu_rate":12.203571428571431,"temp": 45.6}]
         threshold (int, optional): _description_. Defaults to 30.
         time_period (int, optional): _description_. Defaults to 10.
 
@@ -76,8 +76,7 @@ def cpu_exceeded_threshold(data, threshold=15, time_period=20):
     """
     current_time = datetime.now()
     # 遍历数据，仅考虑最近 time_period 内的数据
-    # 逆序，最近时间在前
-    for entry in reversed(data):
+    for entry in data:
         entry_time = datetime.strptime(entry[K_DATE], DATA_FORMAT)
         if current_time - entry_time > timedelta(minutes=time_period):
             # 如果超过指定时间范围，不再继续遍历
@@ -109,6 +108,8 @@ def main(to_mail_users,
     save_log2(f"cpu温度：{temp} 利用率：{cpu}", log_file)
 
     data = get_temp_json(temp, cpu)
+    # 逆序，最近时间在前
+    data.reverse()
 
     if (temp > max_temp and not cpu_exceeded_threshold(data)) or temp > limits_sec_mail_temp:
         d = "时间"
