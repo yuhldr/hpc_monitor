@@ -4,11 +4,9 @@
 SHELL=/bin/zsh
 PATH=/usr/bin:/bin:/usr/local/anaconda3/bin
 
-# 可选择及时关闭，放置内存泄漏，不能关闭太早
-* * * * * source activate gr && ylt_ref_2s
+*/5 * * * * source activate gr && ylt_ref_other
 """
 
-import time
 from concurrent.futures import ThreadPoolExecutor
 
 from ylt.html import ref_sinfo_s
@@ -26,14 +24,11 @@ def worker_function(ref_func):
 
 
 with ThreadPoolExecutor(max_workers=10) as executor:
-    for _i in range(29):
-        # 获取每个节点的top信息
-        executor.submit(worker_function, ref_node_top)
+    # 获取每个节点的top信息
+    executor.submit(worker_function, ref_node_top)
 
-        # ns独立服务器情况
-        executor.submit(worker_function, ref_ns_state)
+    # ns独立服务器情况
+    executor.submit(worker_function, ref_ns_state)
 
-        # 刷新网页sinfo-s
-        executor.submit(worker_function, ref_sinfo_s)
-
-        time.sleep(2)
+    # 刷新网页sinfo-s
+    executor.submit(worker_function, ref_sinfo_s)

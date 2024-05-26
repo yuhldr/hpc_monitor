@@ -10,7 +10,7 @@ scripts = [
     "ylt/bin/topn",
     "ylt/bin/ylt",
     "ylt/bin/ylt_ref_disk",
-    "ylt/bin/ylt_ref_2s",
+    "ylt/bin/ylt_ref_other",
 ]
 
 setuptools.setup(name='ylt',

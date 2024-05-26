@@ -27,11 +27,11 @@ SHELL=/bin/zsh
 PATH=/usr/bin:/bin:/usr/local/anaconda3/bin
 
 # 登录节点 温度、磁盘、在线状态 监控
-* * * * * source activate gr && ylt
+*/5 * * * * source activate gr && ylt
 # 登录节点磁盘详情输出
-0 02 * * * source activate gr && ylt_ref_disk
+0 00 * * 6 source activate gr && ylt_ref_disk
 # 刷新节点的top等数据
-* * * * * source activate gr && ylt_ref_2s
+*/5 * * * * source activate gr && ylt_ref_2s
 
 ```
 
