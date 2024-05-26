@@ -51,7 +51,7 @@ def get_mem(ns_name):
     mem_ok = 0
     mem_no = 0
     ssh_code = f'ssh {ns_name} "sar -r 3 2"'
-    mem_msg = run(ssh_code).split()
+    mem_msg = run(ssh_code).split("\n")
     for line in mem_msg:
         lines = line.strip().split()
 
@@ -93,7 +93,7 @@ def ref_ns_state():
         dd = p.map(cm2s, ps)
 
         msg = f'{getTime(p="%Y/%m/%d %H:%M:%S")}'
-        msg = f'\n{"小服务器":6}{"说明":5}{"CPU:空/总":10}{"内存:空/总"}'
+        msg += f'\n{"小服务器":6}{"说明":5}{"CPU:空/总":10}{"内存:空/总"}'
         for i, sn in enumerate(server_names):
             cs = dd[i*2].split("/")
 
